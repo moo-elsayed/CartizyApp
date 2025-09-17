@@ -11,4 +11,5 @@ abstract class AppAssets {
   static const onboarding1Image = 'assets/images/onboarding1-image.png';
   static const onboarding2Image = 'assets/images/onboarding2-image.png';
   static const emptyProfile = 'assets/images/empty-profile.png';
+  static const helloImage = 'assets/images/hello-image.png';
 }

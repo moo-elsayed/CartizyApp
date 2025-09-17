@@ -1,8 +1,10 @@
+import 'package:cartizy_app_nti/core/theming/colors_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../theming/styles.dart';
 
 class TextFormFieldHelper extends StatefulWidget {
   final TextEditingController? controller;
@@ -100,15 +102,13 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
       obscuringCharacter: widget.obscuringCharacter ?? '*',
 
       keyboardType: widget.keyboardType,
-      // inputFormatters: widget.inputFormatters,
+      inputFormatters: widget.inputFormatters,
       enabled: widget.enabled,
       textInputAction: widget.action ?? TextInputAction.next,
       focusNode: widget.focusNode,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      // style: TextStylesManager.font14color7F7F7FRegular.copyWith(
-      //   color: ColorsManager.color404147,
-      // ),
 
+      style: TextStylesManager.font14color212121Regular,
       textAlign: widget.isMobile != null ? TextAlign.left : TextAlign.start,
 
       textDirection: widget.isMobile != null
@@ -116,14 +116,14 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
           : _textDirection,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        fillColor: Colors.white,
+        fillColor: ColorsManager.colorEBEBEB,
         filled: true,
         hintText: widget.hint,
-        // hintStyle: TextStylesManager.font14color7F7F7FRegular,
+        hintStyle: TextStylesManager.font14color212121Regular,
         errorMaxLines: 4,
-        // errorStyle: TextStylesManager.font14color7F7F7FRegular.copyWith(
-        //   color: Colors.red,
-        // ),
+        errorStyle: TextStylesManager.font14color212121Regular.copyWith(
+          color: Colors.red,
+        ),
         prefixIcon: widget.prefixIcon,
         prefix: widget.prefix,
         suffixIcon: widget.isPassword
@@ -131,7 +131,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                 onTap: _toggleObscureText,
                 child: Icon(
                   obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
-                  color: Colors.grey,
+                  color: ColorsManager.color212121,
                   size: 24.r,
                 ),
               )
@@ -139,15 +139,15 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
         contentPadding:
             widget.contentPadding ??
             EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-        // border: outlineInputBorder(color: ColorsManager.colorBABABA, width: 1),
-        // enabledBorder: outlineInputBorder(
-        //   color: widget.borderColor ?? ColorsManager.colorBABABA,
-        //   width: 1,
-        // ),
-        // focusedBorder: outlineInputBorder(
-        //   color: widget.borderColor ?? ColorsManager.colorBABABA,
-        //   width: 1,
-        // ),
+        border: outlineInputBorder(color: ColorsManager.color636363, width: 1),
+        enabledBorder: outlineInputBorder(
+          color: widget.borderColor ?? ColorsManager.color636363,
+          width: 1,
+        ),
+        focusedBorder: outlineInputBorder(
+          color: widget.borderColor ?? ColorsManager.color636363,
+          width: 1,
+        ),
         errorBorder: outlineInputBorder(color: Colors.red, width: 1),
         focusedErrorBorder: outlineInputBorder(color: Colors.red, width: 1),
       ),
@@ -159,7 +159,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
     required double width,
   }) {
     return OutlineInputBorder(
-      borderRadius: widget.borderRadius ?? BorderRadius.circular(40),
+      borderRadius: widget.borderRadius ?? BorderRadius.circular(40.r),
       borderSide: BorderSide(color: color, width: width),
     );
   }
