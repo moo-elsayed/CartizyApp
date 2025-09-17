@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../feature/app_section/app_section.dart';
 import '../../feature/auth/view/login_view.dart';
 import '../../feature/auth/view/register_view.dart';
-import '../../feature/onboarding/onboarding_view.dart';
+import '../../feature/onboarding/presentation/views/onboarding_view.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
