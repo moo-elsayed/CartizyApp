@@ -1,4 +1,5 @@
 import 'package:cartizy_app_nti/core/routing/app_router.dart';
+import 'package:cartizy_app_nti/core/theming/colors_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,6 +21,7 @@ class CartizyApp extends StatelessWidget {
       splitScreenMode: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(scaffoldBackgroundColor: ColorsManager.colorEBEBEB),
         initialRoute: initialView,
         onGenerateRoute: appRouter.generateRoute,
       ),

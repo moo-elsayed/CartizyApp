@@ -52,7 +52,6 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsManager.colorEBEBEB,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
