@@ -5,41 +5,32 @@ import 'package:cartizy_app_nti/core/routing/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import '../../../core/theming/styles.dart';
 import '../../../core/widgets/confirmation_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  static const String routeName = 'HomeScreen';
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16),
+          Gap(16.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text.rich(
+              Text.rich(
                 TextSpan(
                   text: 'Hi !,\n',
-                  style: TextStyle(
-                    color: Color(0xff212121),
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStylesManager.font17balooThambi2BlackMedium,
                   children: [
                     TextSpan(
-                      text: 'Let’s start your shopping',
-                      style: TextStyle(
-                        color: Color(0xff212121),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      text: 'Let’s start your day',
+                      style: TextStylesManager.font18balooThambi2BlackBold,
                     ),
                   ],
                 ),
@@ -52,7 +43,8 @@ class HomeScreen extends StatelessWidget {
                     SvgPicture.asset(AppAssets.iconLogout),
                     Text(
                       'Log out',
-                      style: TextStylesManager.font16colorFF4949Regular,
+                      style: TextStylesManager
+                          .font16balooThambi2colorFF4949Regular,
                     ),
                   ],
                 ),

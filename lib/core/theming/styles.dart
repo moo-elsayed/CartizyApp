@@ -29,16 +29,29 @@ abstract class TextStylesManager {
     fontWeight: FontWeightHelper.medium,
   );
 
-  static TextStyle font16colorFF4949Regular = GoogleFonts.inter(
-    fontSize: 16.sp,
-    color: ColorsManager.colorFF4949,
-    fontWeight: FontWeightHelper.regular,
+  static TextStyle font16balooThambi2colorFF4949Regular =
+      GoogleFonts.balooThambi2(
+        fontSize: 16.sp,
+        color: ColorsManager.colorFF4949,
+        fontWeight: FontWeightHelper.regular,
+      );
+
+  static TextStyle font17balooThambi2BlackMedium = GoogleFonts.balooThambi2(
+    fontSize: 17.sp,
+    color: ColorsManager.black,
+    fontWeight: FontWeightHelper.medium,
   );
 
   static TextStyle font18color5C5C5CRegular = GoogleFonts.inter(
     fontSize: 18.sp,
     color: ColorsManager.color5C5C5C,
     fontWeight: FontWeightHelper.regular,
+  );
+
+  static TextStyle font18balooThambi2BlackBold = GoogleFonts.balooThambi2(
+    fontSize: 18.sp,
+    color: ColorsManager.black,
+    fontWeight: FontWeightHelper.bold,
   );
 
   static TextStyle font18color212121Regular = GoogleFonts.inter(
