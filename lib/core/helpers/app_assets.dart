@@ -4,6 +4,7 @@ abstract class AppAssets {
   static const iconFavorite = 'assets/icons/icon-favourite.svg';
   static const iconHome = 'assets/icons/icon-home.svg';
   static const iconProfile = 'assets/icons/icon-profile.svg';
+  static const iconLogout = 'assets/icons/icon-logout.svg';
 
   // png images -----------------------------------------------------------------
 

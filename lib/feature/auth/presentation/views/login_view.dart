@@ -1,17 +1,27 @@
+import 'package:cartizy_app_nti/core/helpers/dependency_injection.dart';
 import 'package:cartizy_app_nti/core/helpers/extentions.dart';
+import 'package:cartizy_app_nti/core/helpers/shared_preferences_manager.dart';
 import 'package:cartizy_app_nti/core/routing/routes.dart';
 import 'package:cartizy_app_nti/core/theming/colors_manager.dart';
 import 'package:cartizy_app_nti/core/theming/styles.dart';
+import 'package:cartizy_app_nti/core/widgets/app_toasts.dart';
 import 'package:cartizy_app_nti/core/widgets/custom_material_button.dart';
+import 'package:cartizy_app_nti/feature/auth/data/repos/auth_repo_imp.dart';
+import 'package:cartizy_app_nti/feature/auth/domain/entities/request/login_request_entity.dart';
+import 'package:cartizy_app_nti/feature/auth/presentation/managers/login_cubit/login_cubit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:toastification/toastification.dart';
 import '../../../../core/helpers/validator.dart';
 import '../../../../core/widgets/text_form_field_helper.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  const LoginView({super.key, this.loginArgs});
+
+  final LoginRequestEntity? loginArgs;
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -21,6 +31,14 @@ class _LoginViewState extends State<LoginView> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  var loginCubit = LoginCubit(getIt.get<AuthRepoImp>());
+
+  void _clearForm() {
+    _emailController.clear();
+    _passwordController.clear();
+    _formKey = GlobalKey<FormState>();
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -90,16 +108,45 @@ class _LoginViewState extends State<LoginView> {
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   Gap(60.h),
-                  CustomMaterialButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                  BlocConsumer<LoginCubit, LoginState>(
+                    bloc: loginCubit,
+                    listener: (context, state) {
+                      if (state is LoginSuccess) {
+                        AppToast.showToast(
+                          context: context,
+                          title: 'welcome',
+                          type: ToastificationType.success,
+                        );
+                        SharedPreferencesManager.setUserLoggedIn(true);
+                        context.pushReplacementNamed(Routes.appSection);
+                      } else if (state is LoginFailure) {
+                        AppToast.showToast(
+                          context: context,
+                          title: 'Error',
+                          description: state.message,
+                          type: ToastificationType.error,
+                        );
+                      }
                     },
-                    text: 'Login',
-                    maxWidth: true,
-                    textStyle: TextStylesManager.font16WhiteMedium,
-                    color: ColorsManager.color212121,
-                    padding: EdgeInsetsGeometry.symmetric(vertical: 16.h),
-                    borderRadius: BorderRadius.circular(8.r),
+                    builder: (context, state) {
+                      return CustomMaterialButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            loginCubit.login(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+                          }
+                        },
+                        text: 'Login',
+                        maxWidth: true,
+                        textStyle: TextStylesManager.font16WhiteMedium,
+                        color: ColorsManager.color212121,
+                        padding: EdgeInsetsGeometry.symmetric(vertical: 16.h),
+                        borderRadius: BorderRadius.circular(8.r),
+                        isLoading: state is LoginLoading,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -119,7 +166,15 @@ class _LoginViewState extends State<LoginView> {
                 text: 'Sign Up',
                 style: TextStylesManager.font14color212121Bold,
                 recognizer: TapGestureRecognizer()
-                  ..onTap = () => context.pushNamed(Routes.registerView),
+                  ..onTap = () async {
+                    final result = await context.pushNamed(Routes.registerView);
+                    if (result != null && result is LoginRequestEntity) {
+                      _emailController.text = result.email;
+                      _passwordController.text = result.password;
+                    } else {
+                      _clearForm();
+                    }
+                  },
               ),
             ],
           ),

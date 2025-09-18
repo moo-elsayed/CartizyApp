@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesManager {
   static const String isFirstTimeKey = 'isFirstTime';
   static const String isUserLoggedInKey = 'isUserLoggedIn';
+  static const String userTokenKey = 'userToken';
+  static const String refreshTokenKey = 'refreshToken';
 
   static Future<void> setFirstTime(bool isFirstTime) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,5 +24,25 @@ class SharedPreferencesManager {
   static Future<bool> getUserLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(isUserLoggedInKey) ?? false;
+  }
+
+  static Future<void> setUserToken(String userToken) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userTokenKey, userToken);
+  }
+
+  static Future<String> getUserToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userTokenKey) ?? '';
+  }
+
+  static Future<void> setRefreshToken(String refreshToken) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(refreshTokenKey, refreshToken);
+  }
+
+  static Future<String> getRefreshToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(refreshTokenKey) ?? '';
   }
 }

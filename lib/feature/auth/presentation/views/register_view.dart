@@ -1,12 +1,19 @@
 import 'package:cartizy_app_nti/core/theming/colors_manager.dart';
+import 'package:cartizy_app_nti/core/widgets/app_toasts.dart';
 import 'package:cartizy_app_nti/core/widgets/custom_material_button.dart';
 import 'package:cartizy_app_nti/core/widgets/text_form_field_helper.dart';
+import 'package:cartizy_app_nti/feature/auth/domain/entities/request/login_request_entity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:toastification/toastification.dart';
+import '../../../../core/helpers/dependency_injection.dart';
 import '../../../../core/helpers/validator.dart';
 import '../../../../core/theming/styles.dart';
+import '../../data/repos/auth_repo_imp.dart';
+import '../managers/register_cubit/register_cubit.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -17,14 +24,17 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   late GlobalKey<FormState> _formKey;
+  late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
+  var registerCubit = RegisterCubit(getIt.get<AuthRepoImp>());
 
   @override
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
+    _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -32,6 +42,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -62,6 +73,20 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                   Gap(38.h),
+                  Text(
+                    'Name',
+                    style: TextStylesManager.font18color212121Regular,
+                  ),
+                  Gap(8.h),
+                  TextFormFieldHelper(
+                    controller: _nameController,
+                    onValidate: Validator.validateName,
+                    hint: 'Enter your name',
+                    keyboardType: TextInputType.name,
+                    action: TextInputAction.next,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  Gap(30.h),
                   Text(
                     'Email',
                     style: TextStylesManager.font18color212121Regular,
@@ -109,16 +134,50 @@ class _RegisterViewState extends State<RegisterView> {
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   Gap(60.h),
-                  CustomMaterialButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                  BlocConsumer<RegisterCubit, RegisterState>(
+                    bloc: registerCubit,
+                    listener: (context, state) {
+                      if (state is RegisterSuccess) {
+                        AppToast.showToast(
+                          context: context,
+                          title: 'Email Created',
+                          type: ToastificationType.success,
+                        );
+                        Navigator.of(context).pop(
+                          LoginRequestEntity(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          ),
+                        );
+                      } else if (state is RegisterFailure) {
+                        AppToast.showToast(
+                          context: context,
+                          title: 'Error',
+                          description: state.message,
+                          type: ToastificationType.error,
+                        );
+                      }
                     },
-                    text: 'Sign up',
-                    maxWidth: true,
-                    textStyle: TextStylesManager.font16WhiteMedium,
-                    color: ColorsManager.color212121,
-                    padding: EdgeInsetsGeometry.symmetric(vertical: 16.h),
-                    borderRadius: BorderRadius.circular(8.r),
+                    builder: (context, state) {
+                      return CustomMaterialButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            registerCubit.register(
+                              name: _nameController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+                          }
+                        },
+                        text: 'Sign up',
+                        maxWidth: true,
+                        textStyle: TextStylesManager.font16WhiteMedium,
+                        color: ColorsManager.color212121,
+                        padding: EdgeInsetsGeometry.symmetric(vertical: 16.h),
+                        borderRadius: BorderRadius.circular(8.r),
+                        isLoading: state is RegisterLoading,
+                      );
+                    },
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:cartizy_app_nti/core/routing/routes.dart';
+import 'package:cartizy_app_nti/feature/auth/domain/entities/request/login_request_entity.dart';
 import 'package:cartizy_app_nti/feature/auth/presentation/views/welcome_view.dart';
 import 'package:flutter/cupertino.dart';
 import '../../feature/app_section/app_section.dart';
@@ -17,8 +18,8 @@ class AppRouter {
       case Routes.welcomeView:
         return CupertinoPageRoute(builder: (_) => const WelcomeView());
       case Routes.loginView:
-        // final args = arguments as LoginArgs?;
-        return CupertinoPageRoute(builder: (_) => const LoginView());
+        final args = arguments as LoginRequestEntity?;
+        return CupertinoPageRoute(builder: (_) => LoginView(loginArgs: args));
       case Routes.registerView:
         return CupertinoPageRoute(builder: (_) => const RegisterView());
       case Routes.appSection:
