@@ -3,6 +3,7 @@ import 'package:cartizy_app_nti/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cartizy_app.dart';
+import 'core/helpers/dependency_injection.dart';
 import 'core/helpers/shared_preferences_manager.dart';
 import 'core/routing/routes.dart';
 
@@ -24,5 +25,6 @@ void main() async {
       : Routes.loginView;
 
   Bloc.observer = SimpleBlocObserver();
+  setupServiceLocator();
   runApp(CartizyApp(appRouter: AppRouter(), initialView: initialView));
 }

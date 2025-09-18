@@ -1,5 +1,4 @@
 import 'package:cartizy_app_nti/core/helpers/extentions.dart';
-import 'package:cartizy_app_nti/core/helpers/shared_preferences_manager.dart';
 import 'package:cartizy_app_nti/core/routing/routes.dart';
 import 'package:cartizy_app_nti/core/theming/colors_manager.dart';
 import 'package:cartizy_app_nti/core/theming/styles.dart';
@@ -113,8 +112,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                       curve: Curves.easeIn,
                     );
                   } else {
-                    SharedPreferencesManager.setFirstTime(false);
-                    context.pushReplacementNamed(Routes.loginView);
+                    context.pushReplacementNamed(Routes.welcomeView);
                   }
                 },
                 text: index < onboardingList.length - 1

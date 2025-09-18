@@ -13,14 +13,23 @@ abstract class Validator {
   }
 
   static String? validatePassword(String? val) {
-    final RegExp passwordRegex = RegExp(AppKeys.passwordRegex);
     if (val == null || val.isEmpty) {
       return 'Password cannot be empty';
-    } else if (!passwordRegex.hasMatch(val)) {
-      return 'Enter a valid password';
-    } else {
-      return null;
     }
+
+    if (!RegExp(r'^[A-Za-z\d]+$').hasMatch(val)) {
+      return 'Password must contain only letters and numbers';
+    }
+
+    if (val.length < 6) {
+      return 'Password must be at least 6 characters long';
+    }
+
+    if (!RegExp(r'\d').hasMatch(val)) {
+      return 'Password must contain at least one number';
+    }
+
+    return null;
   }
 
   static String? validateConfirmPassword(String? val, String? password) {
