@@ -58,7 +58,6 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsManager.colorEBEBEB,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
