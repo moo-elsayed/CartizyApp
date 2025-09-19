@@ -1,6 +1,6 @@
 class LoginResponseEntity {
-  LoginResponseEntity({this.accessToken, this.refreshToken});
+  LoginResponseEntity({this.accessToken = '', this.refreshToken = ''});
 
-  String? accessToken;
-  String? refreshToken;
+  String accessToken;
+  String refreshToken;
 }

@@ -1,21 +1,17 @@
 class RegisterResponseEntity {
   RegisterResponseEntity({
-    this.id,
-    this.email,
-    this.password,
-    this.name,
-    this.role,
-    this.avatar,
-    this.creationAt,
-    this.updatedAt,
+    this.id = 0,
+    this.email = '',
+    this.password = '',
+    this.name = '',
+    this.role = '',
+    this.avatar = '',
   });
 
-  int? id;
-  String? email;
-  String? password;
-  String? name;
-  String? role;
-  String? avatar;
-  String? creationAt;
-  String? updatedAt;
+  int id;
+  String email;
+  String password;
+  String name;
+  String role;
+  String avatar;
 }

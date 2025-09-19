@@ -8,9 +8,12 @@ class RegisterResponseDto extends RegisterResponseEntity {
     super.name,
     super.role,
     super.avatar,
-    super.creationAt,
-    super.updatedAt,
+    this.creationAt,
+    this.updatedAt,
   });
+
+  String? creationAt;
+  String? updatedAt;
 
   RegisterResponseDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,16 +26,12 @@ class RegisterResponseDto extends RegisterResponseEntity {
     updatedAt = json['updatedAt'];
   }
 
-  RegisterResponseEntity toEntity() {
-    return RegisterResponseEntity(
-      id: id,
-      email: email,
-      password: password,
-      name: name,
-      role: role,
-      avatar: avatar,
-      creationAt: creationAt,
-      updatedAt: updatedAt,
-    );
-  }
+  RegisterResponseEntity toEntity() => RegisterResponseEntity(
+    id: id,
+    email: email,
+    password: password,
+    name: name,
+    role: role,
+    avatar: avatar,
+  );
 }
