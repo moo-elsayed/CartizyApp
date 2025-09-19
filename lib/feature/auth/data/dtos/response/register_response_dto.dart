@@ -1,16 +1,25 @@
 import 'package:cartizy_app_nti/feature/auth/domain/entities/response/register_response_entity.dart';
 
-class RegisterResponseDto extends RegisterResponseEntity {
+class RegisterResponseDto {
   RegisterResponseDto({
-    super.id,
-    super.email,
-    super.password,
-    super.name,
-    super.role,
-    super.avatar,
-    super.creationAt,
-    super.updatedAt,
+    this.id,
+    this.email,
+    this.password,
+    this.name,
+    this.role,
+    this.avatar,
+    this.creationAt,
+    this.updatedAt,
   });
+
+  int? id;
+  String? email;
+  String? password;
+  String? name;
+  String? role;
+  String? avatar;
+  String? creationAt;
+  String? updatedAt;
 
   RegisterResponseDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,16 +32,12 @@ class RegisterResponseDto extends RegisterResponseEntity {
     updatedAt = json['updatedAt'];
   }
 
-  RegisterResponseEntity toEntity() {
-    return RegisterResponseEntity(
-      id: id,
-      email: email,
-      password: password,
-      name: name,
-      role: role,
-      avatar: avatar,
-      creationAt: creationAt,
-      updatedAt: updatedAt,
-    );
-  }
+  RegisterResponseEntity toEntity() => RegisterResponseEntity(
+    id: id ?? 0,
+    email: email ?? '',
+    password: password ?? '',
+    name: name ?? '',
+    role: role ?? '',
+    avatar: avatar ?? '',
+  );
 }
