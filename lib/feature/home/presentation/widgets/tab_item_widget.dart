@@ -25,14 +25,6 @@ class TabItemWidget extends StatelessWidget {
       margin: EdgeInsetsGeometry.only(right: needMargin ? 6.w : 0),
       decoration: BoxDecoration(
         color: Colors.transparent,
-        // borderRadius: BorderRadius.circular(6.r),
-        // border: Border.all(
-        //   color: isSelected
-        //       ? ColorsManager.selectedTabColor
-        //       : ColorsManager.color6B6B6B,
-        // color: isSelected
-        //     ? ColorsManager.selectedTabColor.withOpacity(0.1)
-        //     : Colors.transparent,
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
           color: isSelected
@@ -44,11 +36,8 @@ class TabItemWidget extends StatelessWidget {
       child: Text(
         category.name,
         style: isSelected
-            ? TextStylesManager.font14color212121Regular.copyWith(
-                fontWeight: FontWeight.bold,
-                color: ColorsManager.selectedTabColor,
-              )
-             : TextStylesManager.font14color212121Regular,
+            ? TextStylesManager.font14SelectedTabColorBold
+            : TextStylesManager.font14color212121Regular,
 
         textAlign: TextAlign.center,
       ),

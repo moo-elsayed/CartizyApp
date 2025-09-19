@@ -29,7 +29,9 @@ class _HomeViewState extends State<HomeView>
       length: state.categories.length,
       vsync: this,
     );
+
     isTabControllerInitialized = true;
+
     _tabController.animation!.addListener(() {
       final newIndex = _tabController.animation!.value.round();
       if (newIndex != _selectedTabIndex) {
@@ -41,6 +43,12 @@ class _HomeViewState extends State<HomeView>
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -89,36 +97,45 @@ class _HomeViewState extends State<HomeView>
             }
           },
         ),
-        if (isTabControllerInitialized)
-          BlocConsumer<HomeCubit, HomeState>(
-            listener: (context, state) {
-              if (state is GetProductsByCategoryFailure) {
-                AppToast.showToast(
-                  context: context,
-                  title: 'Error',
-                  description: state.error,
-                  type: ToastificationType.error,
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is GetProductsByCategorySuccess) {
-                return Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: List.generate(
-                      _tabController.length,
-                      (index) => ProductsGridView(products: state.products),
-                    ),
-                  ),
-                );
-              } else if (state is GetProductsByCategoryLoading) {
-                return const Center(child: CupertinoActivityIndicator());
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
+        BlocConsumer<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (state is GetProductsByCategoryFailure) {
+              AppToast.showToast(
+                context: context,
+                title: 'Error',
+                description: state.error,
+                type: ToastificationType.error,
+              );
+            }
+          },
+          buildWhen: (previous, current) {
+            return current is GetProductsByCategorySuccess ||
+                current is GetProductsByCategoryFailure ||
+                current is GetProductsByCategoryLoading;
+          },
+          builder: (context, state) {
+            if (state is GetProductsByCategorySuccess) {
+              return Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: List.generate(_tabController.length, (index) {
+                    final categoryId = categoriesIds[index];
+                    final products =
+                        context
+                            .read<HomeCubit>()
+                            .categoryProducts[categoryId] ??
+                        [];
+                    return ProductsGridView(products: products);
+                  }),
+                ),
+              );
+            } else if (state is GetProductsByCategoryLoading) {
+              return const Center(child: CupertinoActivityIndicator());
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
       ],
     );
   }

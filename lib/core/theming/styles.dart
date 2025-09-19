@@ -11,6 +11,12 @@ abstract class TextStylesManager {
     fontWeight: FontWeightHelper.regular,
   );
 
+  static TextStyle font14SelectedTabColorBold = GoogleFonts.inter(
+    fontSize: 14.sp,
+    color: ColorsManager.selectedTabColor,
+    fontWeight: FontWeightHelper.bold,
+  );
+
   static TextStyle font14BlackRegular = GoogleFonts.inter(
     fontSize: 14.sp,
     color: ColorsManager.black,

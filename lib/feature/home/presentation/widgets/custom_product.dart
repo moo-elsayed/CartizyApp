@@ -25,13 +25,11 @@ class CustomProduct extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: product.images.first,
                 errorWidget: (BuildContext context, String url, Object error) =>
-                    Flexible(
-                      child: Container(
-                        color: Colors.grey,
-                        width: double.infinity,
-                        height: 155.h,
-                        child: const Icon(Icons.error),
-                      ),
+                    Container(
+                      color: Colors.grey,
+                      width: double.infinity,
+                      height: 155.h,
+                      child: const Icon(Icons.error),
                     ),
               ),
             ),
