@@ -37,12 +37,21 @@ class _HomeViewState extends State<HomeView>
       if (newIndex != _selectedTabIndex) {
         setState(() {
           _selectedTabIndex = newIndex;
-          context.read<HomeCubit>().getProductsByCategory(
-            categoriesIds[_selectedTabIndex],
-          );
+          _getProducts();
         });
       }
     });
+  }
+
+  void _getProducts() {
+    if (context
+            .read<HomeCubit>()
+            .categoryProducts[categoriesIds[_selectedTabIndex]] ==
+        null) {
+      context.read<HomeCubit>().getProductsByCategory(
+        categoriesIds[_selectedTabIndex],
+      );
+    }
   }
 
   @override
@@ -70,9 +79,7 @@ class _HomeViewState extends State<HomeView>
             }
             if (state is GetAllCategoriesSuccess) {
               categoriesIds = state.categories.map((e) => e.id).toList();
-              context.read<HomeCubit>().getProductsByCategory(
-                categoriesIds[_selectedTabIndex],
-              );
+              _getProducts();
               if (!isTabControllerInitialized) {
                 _initTabController(state);
               }

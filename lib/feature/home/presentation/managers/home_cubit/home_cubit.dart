@@ -33,7 +33,7 @@ class HomeCubit extends Cubit<HomeState> {
     switch (result) {
       case NetworkSuccess<List<ProductEntity>>():
         categoryProducts[categoryId] = result.data ?? [];
-        emit(GetProductsByCategorySuccess(result.data ?? []));
+        emit(GetProductsByCategorySuccess(categoryProducts[categoryId] ?? []));
       case NetworkFailure<List<ProductEntity>>():
         emit(GetProductsByCategoryFailure(result.exception.toString()));
     }
