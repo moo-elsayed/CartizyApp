@@ -23,9 +23,9 @@ class AuthApi {
         '${AppApis.baseUrl}/api/v1/auth/login',
         data: request.toJson(),
       );
-      return NetworkSuccess(LoginResponseDto.fromJson(response.data));
+      return NetworkSuccess<LoginResponseDto>(LoginResponseDto.fromJson(response.data));
     } catch (e) {
-      return NetworkFailure(Exception(e.toString()));
+      return NetworkFailure<LoginResponseDto>(Exception(e.toString()));
     }
   }
 
@@ -37,9 +37,9 @@ class AuthApi {
         '${AppApis.baseUrl}/api/v1/users/',
         data: request.toJson(),
       );
-      return NetworkSuccess(RegisterResponseDto.fromJson(response.data));
+      return NetworkSuccess<RegisterResponseDto>(RegisterResponseDto.fromJson(response.data));
     } catch (e) {
-      return NetworkFailure(Exception(e.toString()));
+      return NetworkFailure<RegisterResponseDto>(Exception(e.toString()));
     }
   }
 }

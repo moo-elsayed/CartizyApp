@@ -1,13 +1,17 @@
-import 'package:cartizy_app_nti/feature/auth/domain/entities/request/register_request_entity.dart';
 import '../../../../../core/helpers/app_apis.dart';
 
-class RegisterRequestDto extends RegisterRequestEntity {
+class RegisterRequestDto {
   RegisterRequestDto({
-    required super.name,
-    required super.email,
-    required super.password,
-    super.avatar = AppApis.defaultAvatar,
+    required this.name,
+    required this.email,
+    required this.password,
+    this.avatar = AppApis.defaultAvatar,
   });
+
+  String name;
+  String email;
+  String password;
+  String avatar;
 
   Map<String, dynamic> toJson() => {
     "name": name,
