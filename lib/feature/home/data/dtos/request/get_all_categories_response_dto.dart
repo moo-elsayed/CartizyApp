@@ -14,8 +14,8 @@ class GetAllCategoriesResponseDto {
   String? name;
   String? slug;
   String? image;
-  DateTime? creationAt;
-  DateTime? updatedAt;
+  String? creationAt;
+  String? updatedAt;
 
   factory GetAllCategoriesResponseDto.fromJson(Map<String, dynamic> json) =>
       GetAllCategoriesResponseDto(
@@ -23,8 +23,8 @@ class GetAllCategoriesResponseDto {
         name: json["name"],
         slug: json["slug"],
         image: json["image"],
-        creationAt: DateTime.parse(json["creationAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        creationAt: json["creationAt"],
+        updatedAt: json["updatedAt"],
       );
 
   CategoryEntity toEntity() => CategoryEntity(

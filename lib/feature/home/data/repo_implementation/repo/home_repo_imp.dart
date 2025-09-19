@@ -17,7 +17,6 @@ class HomeRepoImp implements HomeRepo {
     categories = await _homeLocalDataSourceImp.getAllCategories();
     if (categories.isEmpty) {
       final result = await _homeRemoteDataSourceImp.getAllCategories();
-
       switch (result) {
         case NetworkSuccess<List<CategoryEntity>>():
           categories = result.data ?? [];

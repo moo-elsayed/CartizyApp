@@ -17,7 +17,7 @@ class HomeApi {
     try {
       final response = await _dio.get('${AppApis.baseUrl}/api/v1/categories/');
       return NetworkSuccess<List<GetAllCategoriesResponseDto>>(
-        response.data
+        (response.data as List)
             .map((e) => GetAllCategoriesResponseDto.fromJson(e))
             .toList(),
       );
@@ -36,7 +36,9 @@ class HomeApi {
         '${AppApis.baseUrl}/api/v1/categories/$categoryId/products',
       );
       return NetworkSuccess<List<GetProductsByCategoryDto>>(
-        response.data.map((e) => GetProductsByCategoryDto.fromJson(e)).toList(),
+        (response.data as List)
+            .map((e) => GetProductsByCategoryDto.fromJson(e))
+            .toList(),
       );
     } catch (e) {
       return NetworkFailure<List<GetProductsByCategoryDto>>(

@@ -22,8 +22,8 @@ class GetProductsByCategoryDto {
   String? description;
   GetAllCategoriesResponseDto? category;
   List<String>? images;
-  DateTime? creationAt;
-  DateTime? updatedAt;
+  String? creationAt;
+  String? updatedAt;
 
   GetProductsByCategoryDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];

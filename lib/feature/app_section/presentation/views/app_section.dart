@@ -24,7 +24,7 @@ class _AppSectionState extends State<AppSection> {
       create: (context) => HomeCubit(
         getIt.get<GetAllCategoriesUseCase>(),
         getIt.get<GetProductsByCategoryUseCase>(),
-      ),
+      )..getAllCategories(),
       child: const HomeView(),
     ),
     const CartScreen(),

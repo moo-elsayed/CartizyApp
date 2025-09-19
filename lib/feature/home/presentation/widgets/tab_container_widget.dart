@@ -1,47 +1,44 @@
-// import 'dart:developer';
+import 'package:cartizy_app_nti/feature/home/domain/entities/category_entity.dart';
+import 'package:cartizy_app_nti/feature/home/presentation/widgets/tab_item_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// import 'package:cartzy_app/feature/home/widgets/tab_item_widget.dart';
-// import 'package:flutter/material.dart';
+class TabContainerWidget extends StatelessWidget {
+  const TabContainerWidget({
+    super.key,
+    required this.categories,
+    required this.tabController,
+    required this.selectedTabIndex,
+  });
 
-// class TabContainerWidget extends StatefulWidget {
-//   const TabContainerWidget({
-//     super.key,
-//     required this.categories,
-//   });
-//   final List<CategoryResponse> categories;
+  final List<CategoryEntity> categories;
+  final TabController tabController;
+  final int selectedTabIndex;
 
-//   @override
-//   State<TabContainerWidget> createState() => _TabContainerWidgetState();
-// }
-
-// class _TabContainerWidgetState extends State<TabContainerWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return DefaultTabController(
-//       length: widget.categories.length,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           TabBar(
-//             isScrollable: true,
-//             indicatorColor: Colors.transparent,
-//             dividerColor: Colors.transparent,
-//             tabAlignment: TabAlignment.start,
-//             labelPadding: EdgeInsets.zero,
-//             onTap: (int index) {
-//               log('Selected tab: ${widget.categories[index].id}');
-//             },
-//             tabs: widget.categories
-//                 .map(
-//                   (source) => TabItemWidget(
-//                     category: source,
-//                   ),
-//                 )
-//                 .toList(),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return TabBar(
+      isScrollable: true,
+      controller: tabController,
+      padding: EdgeInsetsGeometry.symmetric(horizontal: 16.w),
+      indicatorColor: Colors.transparent,
+      dividerColor: Colors.transparent,
+      splashFactory: NoSplash.splashFactory,
+      overlayColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) =>
+            states.contains(WidgetState.focused) ? null : Colors.transparent,
+      ),
+      tabAlignment: TabAlignment.start,
+      labelPadding: EdgeInsets.zero,
+      // onTap: (int index) => setState(() => selectedIndex = index),
+      tabs: List.generate(categories.length, (index) {
+        var category = categories[index];
+        return TabItemWidget(
+          category: category,
+          needMargin: index != categories.length - 1,
+          isSelected: selectedTabIndex == index,
+        );
+      }),
+    );
+  }
+}

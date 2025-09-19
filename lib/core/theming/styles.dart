@@ -11,6 +11,12 @@ abstract class TextStylesManager {
     fontWeight: FontWeightHelper.regular,
   );
 
+  static TextStyle font14BlackRegular = GoogleFonts.inter(
+    fontSize: 14.sp,
+    color: ColorsManager.black,
+    fontWeight: FontWeightHelper.regular,
+  );
+
   static TextStyle font14color212121Bold = GoogleFonts.inter(
     fontSize: 14.sp,
     color: ColorsManager.color212121,
@@ -20,6 +26,12 @@ abstract class TextStylesManager {
   static TextStyle font16WhiteMedium = GoogleFonts.inter(
     fontSize: 16.sp,
     color: ColorsManager.white,
+    fontWeight: FontWeightHelper.medium,
+  );
+
+  static TextStyle font16BlackMedium = GoogleFonts.inter(
+    fontSize: 16.sp,
+    color: ColorsManager.black,
     fontWeight: FontWeightHelper.medium,
   );
 
