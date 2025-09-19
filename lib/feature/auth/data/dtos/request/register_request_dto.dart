@@ -1,17 +1,17 @@
 import '../../../../../core/helpers/app_apis.dart';
 
 class RegisterRequestDto {
-  RegisterRequestDto({
+  const RegisterRequestDto({
     required this.name,
     required this.email,
     required this.password,
     this.avatar = AppApis.defaultAvatar,
   });
 
-  String name;
-  String email;
-  String password;
-  String avatar;
+  final String name;
+  final String email;
+  final String password;
+  final String avatar;
 
   Map<String, dynamic> toJson() => {
     "name": name,

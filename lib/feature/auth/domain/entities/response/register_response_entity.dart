@@ -1,5 +1,5 @@
 class RegisterResponseEntity {
-  RegisterResponseEntity({
+  const RegisterResponseEntity({
     this.id = 0,
     this.email = '',
     this.password = '',
@@ -8,10 +8,10 @@ class RegisterResponseEntity {
     this.avatar = '',
   });
 
-  int id;
-  String email;
-  String password;
-  String name;
-  String role;
-  String avatar;
+  final int id;
+  final String email;
+  final String password;
+  final String name;
+  final String role;
+  final String avatar;
 }
