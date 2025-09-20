@@ -22,12 +22,13 @@ void main() async {
   List result = await Future.wait([
     Hive.openBox<CategoryEntity>(HiveHelper.categoriesBox),
     Hive.openBox<ProductEntity>(HiveHelper.productsBox),
+    Hive.openBox<ProductEntity>(HiveHelper.cartBox),
     SharedPreferencesManager.getFirstTime(),
     SharedPreferencesManager.getUserLoggedIn(),
   ]);
 
-  bool isFirstTime = result[2];
-  bool isUserLoggedIn = result[3];
+  bool isFirstTime = result[result.length - 2];
+  bool isUserLoggedIn = result.last;
 
   String initialView = isFirstTime
       ? Routes.onboardingView

@@ -46,7 +46,7 @@ class HomeAppBar extends StatelessWidget {
                 SvgPicture.asset(AppAssets.iconLogout),
                 Text(
                   'Log out',
-                  style: TextStylesManager.font16colorFF4949Regular,
+                  style: TextStylesManager.font16balooThambi2colorFF4949Regular,
                 ),
               ],
             ),

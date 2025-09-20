@@ -8,4 +8,6 @@ abstract class HomeRepo {
   Future<NetworkResponse<List<ProductEntity>>> getProductsByCategory(
     int categoryId,
   );
+
+  bool addProductToCart(ProductEntity product);
 }

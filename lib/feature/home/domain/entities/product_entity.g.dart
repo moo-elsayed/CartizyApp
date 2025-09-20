@@ -24,13 +24,14 @@ class ProductEntityAdapter extends TypeAdapter<ProductEntity> {
       description: fields[4] as String,
       category: fields[5] as CategoryEntity,
       images: (fields[6] as List).cast<String>(),
+      isFavorite: fields[7] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProductEntity obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class ProductEntityAdapter extends TypeAdapter<ProductEntity> {
       ..writeByte(5)
       ..write(obj.category)
       ..writeByte(6)
-      ..write(obj.images);
+      ..write(obj.images)
+      ..writeByte(7)
+      ..write(obj.isFavorite);
   }
 
   @override

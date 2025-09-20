@@ -5,4 +5,6 @@ abstract class HomeLocalDataSource {
   Future<List<CategoryEntity>> getAllCategories();
 
   Future<List<ProductEntity>> getProductsByCategory(int categoryId);
+
+  bool addProductToCart(ProductEntity product);
 }
