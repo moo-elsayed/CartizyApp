@@ -51,4 +51,8 @@ class HomeRepoImp implements HomeRepo {
       return NetworkSuccess<List<ProductEntity>>(products);
     }
   }
+
+  @override
+  bool addProductToCart(ProductEntity product) =>
+      _homeLocalDataSourceImp.addProductToCart(product);
 }

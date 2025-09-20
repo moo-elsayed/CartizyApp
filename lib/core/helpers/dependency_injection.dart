@@ -10,6 +10,7 @@ import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import 'package:get_it/get_it.dart';
 import '../../feature/auth/data/repo_implementation/repo/auth_repo_imp.dart';
+import '../../feature/home/domain/use_cases/add_product_to_cart_use_case.dart';
 
 final getIt = GetIt.instance;
 
@@ -22,21 +23,22 @@ void setupServiceLocator() {
     RegisterUseCase(AuthRepoImp(AuthRemoteDataSourceImp(AuthApi.instance))),
   );
 
-  getIt.registerSingleton<GetAllCategoriesUseCase>(
-    GetAllCategoriesUseCase(
-      HomeRepoImp(
-        HomeRemoteDataSourceImp(HomeApi.instance),
-        HomeLocalDataSourceImp(),
-      ),
+  getIt.registerSingleton<HomeRepoImp>(
+    HomeRepoImp(
+      HomeRemoteDataSourceImp(HomeApi.instance),
+      HomeLocalDataSourceImp(),
     ),
   );
 
+  getIt.registerSingleton<GetAllCategoriesUseCase>(
+    GetAllCategoriesUseCase(getIt.get<HomeRepoImp>()),
+  );
+
   getIt.registerSingleton<GetProductsByCategoryUseCase>(
-    GetProductsByCategoryUseCase(
-      HomeRepoImp(
-        HomeRemoteDataSourceImp(HomeApi.instance),
-        HomeLocalDataSourceImp(),
-      ),
-    ),
+    GetProductsByCategoryUseCase(getIt.get<HomeRepoImp>()),
+  );
+
+  getIt.registerSingleton<AddProductToCartUseCase>(
+    AddProductToCartUseCase(getIt.get<HomeRepoImp>()),
   );
 }

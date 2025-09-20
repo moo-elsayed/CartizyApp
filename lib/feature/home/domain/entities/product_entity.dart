@@ -12,6 +12,7 @@ class ProductEntity {
     this.description = '',
     this.category = const CategoryEntity(),
     this.images = const [],
+    this.isFavorite = false,
   });
 
   @HiveField(0)
@@ -28,4 +29,6 @@ class ProductEntity {
   final CategoryEntity category;
   @HiveField(6)
   final List<String> images;
+  @HiveField(7)
+  final bool isFavorite;
 }

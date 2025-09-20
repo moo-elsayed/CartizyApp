@@ -1,11 +1,14 @@
 import 'dart:developer';
 import 'package:cartizy_app_nti/core/widgets/app_toasts.dart';
+import 'package:cartizy_app_nti/core/widgets/custom_fading_widget.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/managers/home_cubit/home_cubit.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/widgets/home_app_bar.dart';
+import 'package:cartizy_app_nti/feature/home/presentation/widgets/loading/loading_tab_item_widget.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/widgets/tab_container_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:toastification/toastification.dart';
 
 import '../widgets/products_grid_view.dart';
@@ -98,7 +101,17 @@ class _HomeViewState extends State<HomeView>
                 selectedTabIndex: _selectedTabIndex,
               );
             } else if (state is GetAllCategoriesLoading) {
-              return const CupertinoActivityIndicator();
+              return SizedBox(
+                height: 33.h,
+                child: ListView.separated(
+                  padding: EdgeInsetsGeometry.symmetric(horizontal: 16.w),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) =>
+                      const CustomFadingWidget(child: LoadingTabItemWidget()),
+                  separatorBuilder: (context, index) => Gap(8.w),
+                  itemCount: 5,
+                ),
+              );
             } else {
               return const SizedBox.shrink();
             }
@@ -132,12 +145,17 @@ class _HomeViewState extends State<HomeView>
                             .read<HomeCubit>()
                             .categoryProducts[categoryId] ??
                         [];
+                    if (products.isEmpty) {
+                      return const Center(
+                        child: Text('No products found for this category'),
+                      );
+                    }
                     return ProductsGridView(products: products);
                   }),
                 ),
               );
             } else if (state is GetProductsByCategoryLoading) {
-              return const Center(child: CupertinoActivityIndicator());
+              return const Expanded(child: ProductsGridView(loading: true));
             } else {
               return const SizedBox.shrink();
             }

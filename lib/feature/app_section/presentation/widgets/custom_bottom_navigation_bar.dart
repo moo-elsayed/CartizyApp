@@ -47,10 +47,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               fontWeight: FontWeight.w500,
               fontSize: 14.sp,
             ),
-            selectedItemColor: ColorsManager.color212121,
+            selectedItemColor: ColorsManager.selectedTabColor,
             unselectedItemColor: ColorsManager.color5C5C5C,
             unselectedLabelStyle: TextStyle(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               fontSize: 14.sp,
             ),
             items: List.generate(widget.labels.length, (index) {
@@ -85,7 +85,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       child: SvgPicture.asset(
         iconPath,
         colorFilter: ColorFilter.mode(
-          active ? ColorsManager.color212121 : ColorsManager.color5C5C5C,
+          active ? ColorsManager.selectedTabColor : ColorsManager.color5C5C5C,
           BlendMode.srcIn,
         ),
       ),
