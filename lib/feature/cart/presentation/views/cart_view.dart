@@ -46,14 +46,14 @@ class CartView extends StatelessWidget {
               if (state is GetProductsLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (state is GetProductsSuccess) {
-                if (state.products.isEmpty) {
+              if (state is GetProductsSuccess || state is EditTotalPrice) {
+                if (context.read<CartCubit>().products.isEmpty) {
                   return const EmptyCartWidget(
                     description: 'your cart is empty',
                     image: AppAssets.emptyCart,
                   );
                 } else {
-                  return CartBodyWidget(products: state.products);
+                  return CartBodyWidget();
                 }
               }
               return const SizedBox();
