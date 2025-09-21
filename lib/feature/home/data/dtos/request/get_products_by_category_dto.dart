@@ -1,6 +1,6 @@
 import 'package:cartizy_app_nti/feature/home/data/dtos/request/get_all_categories_response_dto.dart';
 import '../../../domain/entities/category_entity.dart';
-import '../../../domain/entities/product_entity.dart';
+import '../../../../../core/entities/product_entity.dart';
 
 class GetProductsByCategoryDto {
   GetProductsByCategoryDto({

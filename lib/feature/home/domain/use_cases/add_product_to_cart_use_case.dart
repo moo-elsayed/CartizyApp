@@ -1,5 +1,5 @@
 import 'package:cartizy_app_nti/feature/home/domain/repo_contract/repo/home_repo.dart';
-import '../entities/product_entity.dart';
+import '../../../../core/entities/product_entity.dart';
 
 class AddProductToCartUseCase {
   AddProductToCartUseCase(this._homeRepo);

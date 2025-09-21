@@ -1,4 +1,4 @@
-import 'package:cartizy_app_nti/feature/home/domain/entities/product_entity.dart';
+import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/custom_fading_widget.dart';

@@ -2,7 +2,7 @@ import 'package:cartizy_app_nti/core/helpers/network_response.dart';
 import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_local_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_remote_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/home/domain/entities/category_entity.dart';
-import 'package:cartizy_app_nti/feature/home/domain/entities/product_entity.dart';
+import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/domain/repo_contract/repo/home_repo.dart';
 
 class HomeRepoImp implements HomeRepo {

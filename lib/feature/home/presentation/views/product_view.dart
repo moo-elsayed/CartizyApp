@@ -3,7 +3,7 @@ import 'package:cartizy_app_nti/core/theming/colors_manager.dart';
 import 'package:cartizy_app_nti/core/theming/styles.dart';
 import 'package:cartizy_app_nti/core/widgets/app_toasts.dart';
 import 'package:cartizy_app_nti/core/widgets/custom_material_button.dart';
-import 'package:cartizy_app_nti/feature/home/domain/entities/product_entity.dart';
+import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/managers/product_cubit/product_cubit.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/widgets/product_page_view.dart';
 import 'package:flutter/material.dart';
