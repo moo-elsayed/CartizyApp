@@ -35,11 +35,11 @@ class _HomeViewState extends State<HomeView>
 
     isTabControllerInitialized = true;
 
-    _tabController.animation!.addListener(() {
-      final newIndex = _tabController.animation!.value.round();
-      if (newIndex != _selectedTabIndex) {
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging == false &&
+          _tabController.index != _selectedTabIndex) {
         setState(() {
-          _selectedTabIndex = newIndex;
+          _selectedTabIndex = _tabController.index;
           _getProducts(_selectedTabIndex);
         });
       }
