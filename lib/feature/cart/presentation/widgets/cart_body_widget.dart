@@ -1,27 +1,22 @@
+import 'package:cartizy_app_nti/feature/cart/presentation/managers/cart_cubit/cart_cubit.dart';
 import 'package:cartizy_app_nti/feature/cart/presentation/widgets/product_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import '../../../../core/theming/colors_manager.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/custom_material_button.dart';
 import '../../../../core/widgets/custom_price.dart';
-import '../../../../core/entities/product_entity.dart';
 
 class CartBodyWidget extends StatefulWidget {
-  const CartBodyWidget({super.key, required this.products});
-
-  final List<ProductEntity> products;
+  const CartBodyWidget({super.key});
 
   @override
   State<CartBodyWidget> createState() => _CartBodyWidgetState();
 }
 
 class _CartBodyWidgetState extends State<CartBodyWidget> {
-  late int totalPrice = widget.products
-      .map((e) => e.price)
-      .reduce((value, element) => value + element);
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -30,16 +25,17 @@ class _CartBodyWidgetState extends State<CartBodyWidget> {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) => ProductItem(
-                product: widget.products[index],
+                product: context.read<CartCubit>().products[index],
                 onSumChanged: ({required currentSum, required previousSum}) {
-                  setState(() {
-                    totalPrice -= previousSum;
-                    totalPrice += currentSum;
-                  });
+                  context.read<CartCubit>().editTotalPrice(
+                    previousSum: previousSum,
+                    currentSum: currentSum,
+                  );
                 },
               ),
+              physics: const BouncingScrollPhysics(),
               separatorBuilder: (context, index) => Gap(20.h),
-              itemCount: widget.products.length,
+              itemCount: context.read<CartCubit>().products.length,
             ),
           ),
           Container(
@@ -54,7 +50,13 @@ class _CartBodyWidgetState extends State<CartBodyWidget> {
                       'Total',
                       style: TextStylesManager.font14color212121Bold,
                     ),
-                    CustomPrice(price: totalPrice),
+                    BlocBuilder<CartCubit, CartState>(
+                      builder: (context, state) {
+                        return CustomPrice(
+                          price: context.read<CartCubit>().totalPrice,
+                        );
+                      },
+                    ),
                   ],
                 ),
                 Divider(

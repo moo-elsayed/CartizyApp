@@ -24,10 +24,13 @@ class HomeLocalDataSourceImp implements HomeLocalDataSource {
   @override
   bool addProductToCart(ProductEntity product) {
     final box = Hive.box<ProductEntity>(HiveHelper.cartBox);
-    final cart = box.values.toList();
-    if (cart.contains(product)) {
+
+    final exists = box.values.any((p) => p.id == product.id);
+
+    if (exists) {
       return false;
     }
+
     box.add(product);
     return true;
   }

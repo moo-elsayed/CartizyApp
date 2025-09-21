@@ -12,11 +12,14 @@ class CartCubit extends Cubit<CartState> {
 
   final GetProductsUseCase _getProductsUseCase;
   final RemoveProductUseCase _removeProductUseCase;
+  List<ProductEntity> products = [];
+  late int totalPrice;
 
   void getProducts() {
     emit(GetProductsLoading());
-    List<ProductEntity> products = _getProductsUseCase.call();
-    emit(GetProductsSuccess(products));
+    products = _getProductsUseCase.call();
+    _getTotalPrice();
+    emit(GetProductsSuccess());
   }
 
   Future<void> removeProduct(ProductEntity product) async {
@@ -27,5 +30,17 @@ class CartCubit extends Cubit<CartState> {
       return;
     }
     emit(RemoveProductSuccess());
+  }
+
+  void editTotalPrice({required int currentSum, required int previousSum}) {
+    totalPrice -= previousSum;
+    totalPrice += currentSum;
+    emit(EditTotalPrice());
+  }
+
+  void _getTotalPrice() {
+    totalPrice = products
+        .map((e) => e.price)
+        .reduce((value, element) => value + element);
   }
 }
