@@ -5,7 +5,8 @@ import 'package:cartizy_app_nti/feature/home/presentation/widgets/custom_favorit
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theming/styles.dart';
-import '../../domain/entities/product_entity.dart';
+import '../../../../core/widgets/custom_price.dart';
+import '../../../../core/entities/product_entity.dart';
 
 class CustomProduct extends StatelessWidget {
   const CustomProduct({super.key, required this.product});
@@ -26,13 +27,14 @@ class CustomProduct extends StatelessWidget {
               children: [
                 CachedNetworkImage(
                   imageUrl: product.images.first,
-                  errorWidget: (BuildContext context, String url, Object error) =>
-                      Container(
-                        color: Colors.grey,
-                        width: double.infinity,
-                        height: 155.h,
-                        child: const Icon(Icons.error),
-                      ),
+                  errorWidget:
+                      (BuildContext context, String url, Object error) =>
+                          Container(
+                            color: Colors.grey,
+                            width: double.infinity,
+                            height: 155.h,
+                            child: const Icon(Icons.error),
+                          ),
                 ),
                 Positioned(
                   top: 3.h,
@@ -43,19 +45,7 @@ class CustomProduct extends StatelessWidget {
             ),
           ),
           Text(product.title, style: TextStylesManager.font14BlackRegular),
-          Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(
-              text: 'EGP ',
-              style: TextStylesManager.font14BlackRegular,
-              children: [
-                TextSpan(
-                  text: '${product.price}',
-                  style: TextStylesManager.font16BlackMedium,
-                ),
-              ],
-            ),
-          ),
+          CustomPrice(price: product.price),
         ],
       ),
     );

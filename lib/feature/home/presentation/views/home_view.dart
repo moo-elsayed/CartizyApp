@@ -40,19 +40,19 @@ class _HomeViewState extends State<HomeView>
       if (newIndex != _selectedTabIndex) {
         setState(() {
           _selectedTabIndex = newIndex;
-          _getProducts();
+          _getProducts(_selectedTabIndex);
         });
       }
     });
   }
 
-  void _getProducts() {
+  void _getProducts(int selectedTabIndex) {
     if (context
             .read<HomeCubit>()
-            .categoryProducts[categoriesIds[_selectedTabIndex]] ==
+            .categoryProducts[categoriesIds[selectedTabIndex]] ==
         null) {
       context.read<HomeCubit>().getProductsByCategory(
-        categoriesIds[_selectedTabIndex],
+        categoriesIds[selectedTabIndex],
       );
     }
   }
@@ -82,7 +82,7 @@ class _HomeViewState extends State<HomeView>
             }
             if (state is GetAllCategoriesSuccess) {
               categoriesIds = state.categories.map((e) => e.id).toList();
-              _getProducts();
+              _getProducts(_selectedTabIndex);
               if (!isTabControllerInitialized) {
                 _initTabController(state);
               }
@@ -140,17 +140,19 @@ class _HomeViewState extends State<HomeView>
                   controller: _tabController,
                   children: List.generate(_tabController.length, (index) {
                     final categoryId = categoriesIds[index];
-                    final products =
-                        context
-                            .read<HomeCubit>()
-                            .categoryProducts[categoryId] ??
-                        [];
-                    if (products.isEmpty) {
+                    final products = context
+                        .read<HomeCubit>()
+                        .categoryProducts[categoryId];
+
+                    if (products == null) {
+                      return const ProductsGridView(loading: true);
+                    } else if (products.isEmpty) {
                       return const Center(
                         child: Text('No products found for this category'),
                       );
+                    } else {
+                      return ProductsGridView(products: products);
                     }
-                    return ProductsGridView(products: products);
                   }),
                 ),
               );

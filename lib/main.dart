@@ -1,6 +1,6 @@
 import 'package:cartizy_app_nti/core/routing/app_router.dart';
 import 'package:cartizy_app_nti/feature/home/domain/entities/category_entity.dart';
-import 'package:cartizy_app_nti/feature/home/domain/entities/product_entity.dart';
+import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

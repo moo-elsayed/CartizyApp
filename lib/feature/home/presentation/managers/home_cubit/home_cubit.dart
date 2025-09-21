@@ -1,4 +1,4 @@
-import 'package:cartizy_app_nti/feature/home/domain/entities/product_entity.dart';
+import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

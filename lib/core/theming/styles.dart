@@ -5,6 +5,14 @@ import 'colors_manager.dart';
 import 'font_weight_helper.dart';
 
 abstract class TextStylesManager {
+
+  static TextStyle font12color1F1F1FRegular = GoogleFonts.inter(
+    fontSize: 12.sp,
+    color: ColorsManager.color1F1F1F,
+    fontWeight: FontWeightHelper.regular,
+  );
+
+
   static TextStyle font14color212121Regular = GoogleFonts.inter(
     fontSize: 14.sp,
     color: ColorsManager.color212121,
@@ -93,6 +101,12 @@ abstract class TextStylesManager {
   );
 
   static TextStyle font22color212121SemiBold = GoogleFonts.inter(
+    fontSize: 22.sp,
+    color: ColorsManager.color212121,
+    fontWeight: FontWeightHelper.semiBold,
+  );
+
+  static TextStyle font22RobotoColor212121SemiBold = GoogleFonts.roboto(
     fontSize: 22.sp,
     color: ColorsManager.color212121,
     fontWeight: FontWeightHelper.semiBold,

@@ -1,5 +1,5 @@
 import 'package:cartizy_app_nti/feature/home/domain/entities/category_entity.dart';
-import 'package:cartizy_app_nti/feature/home/domain/entities/product_entity.dart';
+import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/domain/repo_contract/data_sources/home_local_data_source.dart';
 import 'package:hive/hive.dart';
 import '../../../../../core/helpers/hive_helper.dart';
