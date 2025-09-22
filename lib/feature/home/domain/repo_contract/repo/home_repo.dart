@@ -9,5 +9,5 @@ abstract class HomeRepo {
     int categoryId,
   );
 
-  bool addProductToCart(ProductEntity product);
+  bool addProductToCart(int productId);
 }

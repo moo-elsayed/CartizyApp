@@ -22,7 +22,6 @@ void main() async {
   List result = await Future.wait([
     Hive.openBox<CategoryEntity>(HiveHelper.categoriesBox),
     Hive.openBox<ProductEntity>(HiveHelper.productsBox),
-    Hive.openBox<ProductEntity>(HiveHelper.cartBox),
     SharedPreferencesManager.getFirstTime(),
     SharedPreferencesManager.getUserLoggedIn(),
   ]);

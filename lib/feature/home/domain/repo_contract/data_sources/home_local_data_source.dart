@@ -6,5 +6,5 @@ abstract class HomeLocalDataSource {
 
   Future<List<ProductEntity>> getProductsByCategory(int categoryId);
 
-  bool addProductToCart(ProductEntity product);
+  bool addProductToCart(int productId);
 }

@@ -6,20 +6,19 @@ import '../../../domain/repo_contract/data_sources/cart_local_data_source.dart';
 class CartLocalDataSourceImp implements CartLocalDataSource {
   @override
   List<ProductEntity> getProducts() {
-    var box = Hive.box<ProductEntity>(HiveHelper.cartBox);
-    return box.values.toList();
+    var box = Hive.box<ProductEntity>(HiveHelper.productsBox);
+    return box.values.where((element) => element.inCart).toList();
   }
 
   @override
-  Future<bool> removeProduct(ProductEntity product) async {
-    var box = Hive.box<ProductEntity>(HiveHelper.cartBox);
-    final key = box.keys.firstWhere(
-      (k) => box.get(k) == product,
-      orElse: () => null,
+  Future<bool> removeProduct(int productId) async {
+    var box = Hive.box<ProductEntity>(HiveHelper.productsBox);
+    int index = box.values.toList().indexWhere(
+      (element) => element.id == productId,
     );
-
-    if (key != null) {
-      await box.delete(key);
+    if (box.values.toList()[index].inCart) {
+      box.values.toList()[index].inCart = false;
+      box.putAt(index, box.values.toList()[index]);
       return true;
     }
     return false;

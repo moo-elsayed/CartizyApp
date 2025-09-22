@@ -75,7 +75,7 @@ class _ProductItemState extends State<ProductItem> {
                 visualDensity: VisualDensity.compact,
                 highlightColor: Colors.transparent,
                 onPressed: () =>
-                    context.read<CartCubit>().removeProduct(widget.product),
+                    context.read<CartCubit>().removeProduct(widget.product.id),
                 icon: Icon(
                   CupertinoIcons.clear,
                   size: 22.r,

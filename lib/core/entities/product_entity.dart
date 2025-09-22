@@ -13,6 +13,7 @@ class ProductEntity {
     this.category = const CategoryEntity(),
     this.images = const [],
     this.isFavorite = false,
+    this.inCart = false
   });
 
   @HiveField(0)
@@ -30,5 +31,7 @@ class ProductEntity {
   @HiveField(6)
   final List<String> images;
   @HiveField(7)
-  final bool isFavorite;
+  bool isFavorite;
+  @HiveField(8)
+  bool inCart;
 }

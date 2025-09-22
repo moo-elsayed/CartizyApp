@@ -84,7 +84,7 @@ class ProductView extends StatelessWidget {
                 },
                 child: CustomMaterialButton(
                   onPressed: () =>
-                      context.read<ProductCubit>().addToCart(product),
+                      context.read<ProductCubit>().addToCart(product.id),
                   text: 'Add to cart',
                   borderRadius: BorderRadius.circular(8.r),
                   color: ColorsManager.color212121,
