@@ -1,8 +1,8 @@
 import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/widgets/custom_fading_widget.dart';
-import 'custom_product.dart';
+import 'custom_fading_widget.dart';
+import '../../feature/home/presentation/widgets/custom_product.dart';
 import 'loading/loading_product.dart';
 
 class ProductsGridView extends StatelessWidget {

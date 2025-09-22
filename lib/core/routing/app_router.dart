@@ -5,6 +5,8 @@ import 'package:cartizy_app_nti/feature/auth/presentation/views/welcome_view.dar
 import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/managers/product_cubit/product_cubit.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/views/product_view.dart';
+import 'package:cartizy_app_nti/feature/search/domain/use_cases/search_products_use_case.dart';
+import 'package:cartizy_app_nti/feature/search/presentation/managers/search_cubit/search_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../feature/app_section/presentation/views/app_section.dart';
@@ -15,6 +17,7 @@ import '../../feature/cart/domain/use_cases/remove_product_use_case.dart';
 import '../../feature/cart/presentation/managers/cart_cubit/cart_cubit.dart';
 import '../../feature/home/domain/use_cases/add_product_to_cart_use_case.dart';
 import '../../feature/onboarding/presentation/views/onboarding_view.dart';
+import '../../feature/search/presentation/views/search_view.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -32,23 +35,31 @@ class AppRouter {
       case Routes.registerView:
         return CupertinoPageRoute(builder: (_) => const RegisterView());
       case Routes.appSection:
-        return CupertinoPageRoute(builder: (_) =>
-            BlocProvider(
-              create: (context) => CartCubit(
-                getIt.get<GetProductsUseCase>(),
-                getIt.get<RemoveProductUseCase>(),
-              ),
-              child: const AppSection(),
-            ));
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => CartCubit(
+              getIt.get<GetProductsUseCase>(),
+              getIt.get<RemoveProductUseCase>(),
+            ),
+            child: const AppSection(),
+          ),
+        );
       case Routes.productView:
         final args = arguments as ProductEntity;
         return CupertinoPageRoute(
-          builder: (_) =>
-              BlocProvider(
-                create: (context) =>
-                    ProductCubit(getIt.get<AddProductToCartUseCase>()),
-                child: ProductView(product: args),
-              ),
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                ProductCubit(getIt.get<AddProductToCartUseCase>()),
+            child: ProductView(product: args),
+          ),
+        );
+      case Routes.searchView:
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                SearchCubit(getIt.get<SearchProductsUseCase>()),
+            child: const SearchView(),
+          ),
         );
       default:
         return null;

@@ -10,6 +10,10 @@ import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sourc
 import 'package:cartizy_app_nti/feature/home/data/repo_implementation/repo/home_repo_imp.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
+import 'package:cartizy_app_nti/feature/search/data/api/search_api.dart';
+import 'package:cartizy_app_nti/feature/search/data/repo_imp/data_sources/search_remote_data_source_imp.dart';
+import 'package:cartizy_app_nti/feature/search/data/repo_imp/repo/search_repo_implementation.dart';
+import 'package:cartizy_app_nti/feature/search/domain/use_cases/search_products_use_case.dart';
 import 'package:get_it/get_it.dart';
 import '../../feature/auth/data/repo_implementation/repo/auth_repo_imp.dart';
 import '../../feature/cart/domain/use_cases/get_products_use_case.dart';
@@ -54,5 +58,11 @@ void setupServiceLocator() {
 
   getIt.registerSingleton<RemoveProductUseCase>(
     RemoveProductUseCase(getIt.get<CartRepoImp>()),
+  );
+
+  getIt.registerSingleton<SearchProductsUseCase>(
+    SearchProductsUseCase(
+      SearchRepoImp(SearchRemoteDataSourceImp(SearchApi.instance)),
+    ),
   );
 }

@@ -6,7 +6,7 @@ import 'package:cartizy_app_nti/feature/home/domain/entities/category_entity.dar
 import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/domain/repo_contract/data_sources/home_remote_data_source.dart';
 import 'package:hive/hive.dart';
-import '../../dtos/request/get_products_by_category_dto.dart';
+import '../../../../../core/dtos/get_products_dto.dart';
 
 class HomeRemoteDataSourceImp implements HomeRemoteDataSource {
   HomeRemoteDataSourceImp(this._homeApi);
@@ -33,12 +33,12 @@ class HomeRemoteDataSourceImp implements HomeRemoteDataSource {
   ) async {
     final result = await _homeApi.getProductsByCategory(categoryId);
     switch (result) {
-      case NetworkSuccess<List<GetProductsByCategoryDto>>():
+      case NetworkSuccess<List<GetProductsDto>>():
         List<ProductEntity> products =
             result.data?.map((e) => e.toEntity()).toList() ?? [];
         await _cacheProducts(products);
         return NetworkSuccess<List<ProductEntity>>(products);
-      case NetworkFailure<List<GetProductsByCategoryDto>>():
+      case NetworkFailure<List<GetProductsDto>>():
         return NetworkFailure<List<ProductEntity>>(result.exception);
     }
   }

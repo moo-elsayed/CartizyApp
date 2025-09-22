@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:toastification/toastification.dart';
 
-import '../widgets/products_grid_view.dart';
+import '../../../../core/widgets/products_grid_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

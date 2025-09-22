@@ -1,5 +1,5 @@
 import 'package:cartizy_app_nti/core/helpers/app_apis.dart';
-import 'package:cartizy_app_nti/feature/home/data/dtos/request/get_products_by_category_dto.dart';
+import 'package:cartizy_app_nti/core/dtos/get_products_dto.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/helpers/network_response.dart';
 import '../dtos/request/get_all_categories_response_dto.dart';
@@ -28,20 +28,20 @@ class HomeApi {
     }
   }
 
-  Future<NetworkResponse<List<GetProductsByCategoryDto>>> getProductsByCategory(
+  Future<NetworkResponse<List<GetProductsDto>>> getProductsByCategory(
     int categoryId,
   ) async {
     try {
       final response = await _dio.get(
         '${AppApis.baseUrl}/api/v1/categories/$categoryId/products',
       );
-      return NetworkSuccess<List<GetProductsByCategoryDto>>(
+      return NetworkSuccess<List<GetProductsDto>>(
         (response.data as List)
-            .map((e) => GetProductsByCategoryDto.fromJson(e))
+            .map((e) => GetProductsDto.fromJson(e))
             .toList(),
       );
     } catch (e) {
-      return NetworkFailure<List<GetProductsByCategoryDto>>(
+      return NetworkFailure<List<GetProductsDto>>(
         Exception(e.toString()),
       );
     }
