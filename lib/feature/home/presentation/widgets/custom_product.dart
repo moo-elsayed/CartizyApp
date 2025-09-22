@@ -54,7 +54,7 @@ class _CustomProductState extends State<CustomProduct> {
                     isFavourite: widget.product.isFavorite,
                     onChanged: () {
                       setState(() {
-                        context.read<HomeCubit>().markProductAsFavoriteOrNot(
+                        context.read<HomeCubit>().toggleFavoriteProduct(
                           widget.product.id,
                         );
                       });

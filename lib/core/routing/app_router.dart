@@ -3,7 +3,7 @@ import 'package:cartizy_app_nti/core/routing/routes.dart';
 import 'package:cartizy_app_nti/feature/auth/presentation/args/login_args.dart';
 import 'package:cartizy_app_nti/feature/auth/presentation/views/welcome_view.dart';
 import 'package:cartizy_app_nti/core/entities/product_entity.dart';
-import 'package:cartizy_app_nti/feature/home/domain/use_cases/mark_product_as_favorite_or_not.dart';
+import 'package:cartizy_app_nti/feature/home/domain/use_cases/home_toggle_favorite.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/managers/product_cubit/product_cubit.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/views/product_view.dart';
 import 'package:cartizy_app_nti/feature/search/domain/use_cases/search_products_use_case.dart';
@@ -51,7 +51,7 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => ProductCubit(
               getIt.get<AddProductToCartUseCase>(),
-              getIt.get<MarkProductAsFavoriteOrNot>(),
+              getIt.get<HomeToggleFavoriteUseCase>(),
             ),
             child: ProductView(product: args),
           ),

@@ -75,7 +75,7 @@ class _ProductPageViewState extends State<ProductPageView> {
                           onChanged: () {
                             context
                                 .read<ProductCubit>()
-                                .markProductAsFavoriteOrNot(widget.product.id);
+                                .toggleFavoriteProduct(widget.product.id);
                           },
                         ),
                       ),

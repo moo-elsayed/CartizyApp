@@ -10,6 +10,4 @@ abstract class HomeRepo {
   );
 
   bool addProductToCart(int productId);
-
-  void markProductAsFavoriteOrNot(int productId);
 }
