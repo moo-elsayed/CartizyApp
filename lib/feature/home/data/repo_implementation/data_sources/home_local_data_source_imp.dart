@@ -22,16 +22,28 @@ class HomeLocalDataSourceImp implements HomeLocalDataSource {
   }
 
   @override
-  bool addProductToCart(ProductEntity product) {
-    final box = Hive.box<ProductEntity>(HiveHelper.cartBox);
-
-    final exists = box.values.any((p) => p.id == product.id);
-
-    if (exists) {
+  bool addProductToCart(int productId) {
+    final box = Hive.box<ProductEntity>(HiveHelper.productsBox);
+    int index = box.values.toList().indexWhere((element) => element.id == productId);
+    if (box.values.toList()[index].inCart) {
       return false;
+    } else {
+      box.values.toList()[index].inCart = true;
+      box.putAt(index, box.values.toList()[index]);
+      return true;
     }
+  }
 
-    box.add(product);
-    return true;
+  @override
+  void markProductAsFavoriteOrNot(int productId) {
+    final box = Hive.box<ProductEntity>(HiveHelper.productsBox);
+    int index = box.values.toList().indexWhere((element) => element.id == productId);
+    if (box.values.toList()[index].isFavorite) {
+      box.values.toList()[index].isFavorite = false;
+      box.putAt(index, box.values.toList()[index]);
+    } else {
+      box.values.toList()[index].isFavorite = true;
+      box.putAt(index, box.values.toList()[index]);
+    }
   }
 }

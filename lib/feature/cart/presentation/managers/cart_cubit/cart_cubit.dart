@@ -3,7 +3,6 @@ import 'package:cartizy_app_nti/feature/cart/domain/use_cases/get_products_use_c
 import 'package:cartizy_app_nti/feature/cart/domain/use_cases/remove_product_use_case.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -18,13 +17,13 @@ class CartCubit extends Cubit<CartState> {
   void getProducts() {
     emit(GetProductsLoading());
     products = _getProductsUseCase.call();
-    _getTotalPrice();
+    totalPrice = _getTotalPrice();
     emit(GetProductsSuccess());
   }
 
-  Future<void> removeProduct(ProductEntity product) async {
+  Future<void> removeProduct(int productId) async {
     emit(RemoveProductLoading());
-    var result = await _removeProductUseCase.call(product);
+    var result = await _removeProductUseCase.call(productId);
     if (!result) {
       emit(RemoveProductFailure());
       return;
@@ -38,9 +37,9 @@ class CartCubit extends Cubit<CartState> {
     emit(EditTotalPrice());
   }
 
-  void _getTotalPrice() {
-    totalPrice = products
-        .map((e) => e.price)
-        .reduce((value, element) => value + element);
-  }
+  int _getTotalPrice() => products.isEmpty
+      ? 0
+      : products
+            .map((e) => e.price)
+            .reduce((value, element) => value + element);
 }

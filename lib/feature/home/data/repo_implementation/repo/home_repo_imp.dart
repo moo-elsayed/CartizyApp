@@ -53,6 +53,10 @@ class HomeRepoImp implements HomeRepo {
   }
 
   @override
-  bool addProductToCart(ProductEntity product) =>
-      _homeLocalDataSourceImp.addProductToCart(product);
+  bool addProductToCart(int productId) =>
+      _homeLocalDataSourceImp.addProductToCart(productId);
+
+  @override
+  void markProductAsFavoriteOrNot(int productId) =>
+      _homeLocalDataSourceImp.markProductAsFavoriteOrNot(productId);
 }

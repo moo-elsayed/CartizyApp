@@ -8,6 +8,7 @@ import 'package:cartizy_app_nti/feature/home/data/api/home_api.dart';
 import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_local_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_remote_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/home/data/repo_implementation/repo/home_repo_imp.dart';
+import 'package:cartizy_app_nti/feature/home/domain/use_cases/mark_product_as_favorite_or_not.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import 'package:cartizy_app_nti/feature/search/data/api/search_api.dart';
@@ -48,6 +49,10 @@ void setupServiceLocator() {
 
   getIt.registerSingleton<AddProductToCartUseCase>(
     AddProductToCartUseCase(getIt.get<HomeRepoImp>()),
+  );
+
+  getIt.registerSingleton<MarkProductAsFavoriteOrNot>(
+    MarkProductAsFavoriteOrNot(getIt.get<HomeRepoImp>()),
   );
 
   getIt.registerSingleton<CartRepoImp>(CartRepoImp(CartLocalDataSourceImp()));

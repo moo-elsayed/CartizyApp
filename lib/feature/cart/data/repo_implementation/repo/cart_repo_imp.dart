@@ -11,6 +11,6 @@ class CartRepoImp implements CartRepo {
   List<ProductEntity> getProducts() => _cartLocalDataSource.getProducts();
 
   @override
-  Future<bool> removeProduct(ProductEntity product) async =>
-      await _cartLocalDataSource.removeProduct(product);
+  Future<bool> removeProduct(int productId) async =>
+      await _cartLocalDataSource.removeProduct(productId);
 }

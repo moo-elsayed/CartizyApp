@@ -4,15 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomFavouriteIcon extends StatefulWidget {
-  const CustomFavouriteIcon({super.key});
+  const CustomFavouriteIcon({
+    super.key,
+    required this.isFavourite,
+    required this.onChanged,
+  });
+
+  final bool isFavourite;
+  final Function() onChanged;
 
   @override
   State<CustomFavouriteIcon> createState() => _CustomFavouriteIconState();
 }
 
-class _CustomFavouriteIconState extends State<CustomFavouriteIcon>
-    with SingleTickerProviderStateMixin {
-  bool _isFavourite = false;
+class _CustomFavouriteIconState extends State<CustomFavouriteIcon> {
+  late bool _isFavourite = widget.isFavourite;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +40,7 @@ class _CustomFavouriteIconState extends State<CustomFavouriteIcon>
           setState(() {
             _isFavourite = !_isFavourite;
           });
+          widget.onChanged();
         },
         icon: AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),

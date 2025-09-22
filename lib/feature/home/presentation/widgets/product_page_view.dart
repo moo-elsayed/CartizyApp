@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cartizy_app_nti/core/entities/product_entity.dart';
+import 'package:cartizy_app_nti/feature/home/presentation/managers/product_cubit/product_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../core/theming/colors_manager.dart';
@@ -7,9 +10,9 @@ import '../../../onboarding/presentation/widgets/custom_animated_widget.dart';
 import 'custom_favorite_icon.dart';
 
 class ProductPageView extends StatefulWidget {
-  const ProductPageView({super.key, required this.images});
+  const ProductPageView({super.key, required this.product});
 
-  final List<String> images;
+  final ProductEntity product;
 
   @override
   State<ProductPageView> createState() => _ProductPageViewState();
@@ -54,25 +57,38 @@ class _ProductPageViewState extends State<ProductPageView> {
                     children: [
                       Positioned.fill(
                         child: CachedNetworkImage(
-                          imageUrl: widget.images[index],
+                          imageUrl: widget.product.images[index],
                           fit: BoxFit.cover,
+                          errorWidget: (context, url, error) =>
+                              Container(
+                                color: Colors.grey,
+                                width: double.infinity,
+                                child: const Icon(Icons.error),
+                              ),
                         ),
                       ),
                       Positioned(
                         top: 6.h,
                         right: 6.w,
-                        child: const CustomFavouriteIcon(),
+                        child: CustomFavouriteIcon(
+                          isFavourite: widget.product.isFavorite,
+                          onChanged: () {
+                            context
+                                .read<ProductCubit>()
+                                .markProductAsFavoriteOrNot(widget.product.id);
+                          },
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-              itemCount: widget.images.length,
+              itemCount: widget.product.images.length,
             ),
           ),
           SmoothPageIndicator(
             controller: _controller,
-            count: widget.images.length,
+            count: widget.product.images.length,
             axisDirection: Axis.horizontal,
             effect: WormEffect(
               dotWidth: 10,
