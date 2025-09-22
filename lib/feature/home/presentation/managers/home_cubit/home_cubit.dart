@@ -1,4 +1,5 @@
 import 'package:cartizy_app_nti/core/entities/product_entity.dart';
+import 'package:cartizy_app_nti/feature/home/domain/use_cases/mark_product_as_favorite_or_not.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +9,15 @@ import '../../../domain/entities/category_entity.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(this._getAllCategoriesUseCase, this._getProductsByCategoryUseCase)
-    : super(HomeInitial());
+  HomeCubit(
+    this._getAllCategoriesUseCase,
+    this._getProductsByCategoryUseCase,
+    this._addProductToFavoriteUseCase,
+  ) : super(HomeInitial());
 
   final GetAllCategoriesUseCase _getAllCategoriesUseCase;
   final GetProductsByCategoryUseCase _getProductsByCategoryUseCase;
+  final MarkProductAsFavoriteOrNot _addProductToFavoriteUseCase;
 
   Map<int, List<ProductEntity>> categoryProducts = {};
 
@@ -37,5 +42,9 @@ class HomeCubit extends Cubit<HomeState> {
       case NetworkFailure<List<ProductEntity>>():
         emit(GetProductsByCategoryFailure(result.exception.toString()));
     }
+  }
+
+  void markProductAsFavoriteOrNot(int productId) {
+    _addProductToFavoriteUseCase.call(productId);
   }
 }

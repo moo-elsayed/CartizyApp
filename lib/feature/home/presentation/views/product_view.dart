@@ -32,7 +32,7 @@ class ProductView extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 16.h, right: 16.w, left: 16.w),
           child: Column(
             children: [
-              ProductPageView(images: product.images),
+              ProductPageView(product: product),
               Gap(12.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -7,4 +7,6 @@ abstract class HomeLocalDataSource {
   Future<List<ProductEntity>> getProductsByCategory(int categoryId);
 
   bool addProductToCart(int productId);
+
+  void markProductAsFavoriteOrNot(int productId);
 }

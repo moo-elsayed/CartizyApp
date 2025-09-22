@@ -3,6 +3,7 @@ import 'package:cartizy_app_nti/core/helpers/dependency_injection.dart';
 import 'package:cartizy_app_nti/feature/app_section/presentation/widgets/custom_bottom_navigation_bar.dart';
 import 'package:cartizy_app_nti/feature/cart/presentation/managers/cart_cubit/cart_cubit.dart';
 import 'package:cartizy_app_nti/feature/cart/presentation/views/cart_view.dart';
+import 'package:cartizy_app_nti/feature/home/domain/use_cases/mark_product_as_favorite_or_not.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/managers/home_cubit/home_cubit.dart';
@@ -25,6 +26,7 @@ class _AppSectionState extends State<AppSection> {
       create: (context) => HomeCubit(
         getIt.get<GetAllCategoriesUseCase>(),
         getIt.get<GetProductsByCategoryUseCase>(),
+        getIt.get<MarkProductAsFavoriteOrNot>(),
       )..getAllCategories(),
       child: const HomeView(),
     ),
