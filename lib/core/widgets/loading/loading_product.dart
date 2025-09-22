@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theming/colors_manager.dart';
+import '../../theming/colors_manager.dart';
 
 class LoadingProduct extends StatelessWidget {
   const LoadingProduct({super.key});

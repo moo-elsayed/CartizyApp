@@ -15,5 +15,6 @@ abstract class ColorsManager {
   static const colorD9D9D9 = Color(0xffD9D9D9);
   static const colorFAFAFA = Color(0xffFAFAFA);
   static const colorF4F4F4 = Color(0xffF4F4F4);
+  static const color6E6A7C = Color(0xff6E6A7C);
   static const selectedTabColor = Color(0xff1976D2);
 }

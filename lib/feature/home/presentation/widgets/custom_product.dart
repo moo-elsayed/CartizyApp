@@ -16,7 +16,11 @@ class CustomProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushNamed(Routes.productView, arguments: product),
+      onTap: () {
+        FocusManager.instance.primaryFocus!.unfocus();
+        context.pushNamed(Routes.productView, arguments: product);
+      },
+      behavior: HitTestBehavior.opaque,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 8.h,

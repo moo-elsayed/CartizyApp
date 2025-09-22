@@ -1,9 +1,9 @@
 import 'package:cartizy_app_nti/feature/home/data/dtos/request/get_all_categories_response_dto.dart';
-import '../../../domain/entities/category_entity.dart';
-import '../../../../../core/entities/product_entity.dart';
+import '../../feature/home/domain/entities/category_entity.dart';
+import '../entities/product_entity.dart';
 
-class GetProductsByCategoryDto {
-  GetProductsByCategoryDto({
+class GetProductsDto {
+  GetProductsDto({
     this.id,
     this.title,
     this.slug,
@@ -25,7 +25,7 @@ class GetProductsByCategoryDto {
   String? creationAt;
   String? updatedAt;
 
-  GetProductsByCategoryDto.fromJson(Map<String, dynamic> json) {
+  GetProductsDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     slug = json['slug'];

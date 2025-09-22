@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../core/helpers/app_assets.dart';
 import '../../../../core/helpers/shared_preferences_manager.dart';
 import '../../../../core/routing/routes.dart';
-import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -38,18 +37,18 @@ class HomeAppBar extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () => _showConfirmationDialog(context),
-            child: Row(
-              spacing: 5.w,
-              children: [
-                SvgPicture.asset(AppAssets.iconLogout),
-                Text(
-                  'Log out',
-                  style: TextStylesManager.font16balooThambi2colorFF4949Regular,
-                ),
-              ],
-            ),
+          Row(
+            spacing: 12.w,
+            children: [
+              GestureDetector(
+                onTap: () => context.pushNamed(Routes.searchView),
+                child: SvgPicture.asset(AppAssets.iconSearch),
+              ),
+              GestureDetector(
+                onTap: () => _showConfirmationDialog(context),
+                child: SvgPicture.asset(AppAssets.iconLogout),
+              ),
+            ],
           ),
         ],
       ),

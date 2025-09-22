@@ -5,6 +5,7 @@ abstract class AppAssets {
   static const iconHome = 'assets/icons/icon-home.svg';
   static const iconProfile = 'assets/icons/icon-profile.svg';
   static const iconLogout = 'assets/icons/icon-logout.svg';
+  static const iconSearch = 'assets/icons/icon-search.svg';
 
   // png images -----------------------------------------------------------------
 
@@ -13,4 +14,5 @@ abstract class AppAssets {
   static const onboarding2Image = 'assets/images/onboarding2-image.png';
   static const emptyProfile = 'assets/images/empty-profile.png';
   static const helloImage = 'assets/images/hello-image.png';
+  static const searchImage = 'assets/images/search-image.png';
 }
