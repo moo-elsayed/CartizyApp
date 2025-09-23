@@ -27,6 +27,7 @@ class HomeRepoImp implements HomeRepo {
       switch (result) {
         case NetworkSuccess<List<CategoryEntity>>():
           categories = result.data ?? [];
+          await SharedPreferencesManager.setLastFetchTime(DateTime.now());
           return NetworkSuccess<List<CategoryEntity>>(categories);
 
         case NetworkFailure<List<CategoryEntity>>():
@@ -54,6 +55,7 @@ class HomeRepoImp implements HomeRepo {
       switch (result) {
         case NetworkSuccess<List<ProductEntity>>():
           products = result.data ?? [];
+          await SharedPreferencesManager.setLastFetchTime(DateTime.now());
           return NetworkSuccess<List<ProductEntity>>(products);
         case NetworkFailure<List<ProductEntity>>():
           return NetworkFailure<List<ProductEntity>>(result.exception);

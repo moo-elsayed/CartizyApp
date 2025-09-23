@@ -7,7 +7,6 @@ import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/domain/repo_contract/data_sources/home_remote_data_source.dart';
 import 'package:hive/hive.dart';
 import '../../../../../core/dtos/get_products_dto.dart';
-import '../../../../../core/helpers/shared_preferences_manager.dart';
 
 class HomeRemoteDataSourceImp implements HomeRemoteDataSource {
   HomeRemoteDataSourceImp(this._homeApi);
@@ -22,7 +21,6 @@ class HomeRemoteDataSourceImp implements HomeRemoteDataSource {
         List<CategoryEntity> categories =
             result.data?.map((e) => e.toEntity()).toList() ?? [];
         await _cacheCategories(categories);
-        await SharedPreferencesManager.setLastFetchTime(DateTime.now());
         return NetworkSuccess<List<CategoryEntity>>(categories);
       case NetworkFailure<List<GetAllCategoriesResponseDto>>():
         return NetworkFailure<List<CategoryEntity>>(result.exception);
@@ -39,7 +37,6 @@ class HomeRemoteDataSourceImp implements HomeRemoteDataSource {
         List<ProductEntity> products =
             result.data?.map((e) => e.toEntity()).toList() ?? [];
         await _cacheProducts(products);
-        await SharedPreferencesManager.setLastFetchTime(DateTime.now());
         return NetworkSuccess<List<ProductEntity>>(products);
       case NetworkFailure<List<GetProductsDto>>():
         return NetworkFailure<List<ProductEntity>>(result.exception);
