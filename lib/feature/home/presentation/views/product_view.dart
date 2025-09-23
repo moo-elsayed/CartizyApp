@@ -19,81 +19,100 @@ class ProductView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorsManager.colorEBEBEB,
-        leading: GestureDetector(
-          onTap: () => context.pop(),
-          child: Icon(Icons.arrow_back, size: 28.r),
+    bool hasChanges = false;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          context.pop(hasChanges);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: ColorsManager.colorEBEBEB,
+          leading: GestureDetector(
+            onTap: () {
+              context.pop(hasChanges);
+            },
+            child: Icon(Icons.arrow_back, size: 28.r),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 16.h, right: 16.w, left: 16.w),
-          child: Column(
-            children: [
-              ProductPageView(product: product),
-              Gap(12.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                spacing: 40.w,
-                children: [
-                  Expanded(
-                    child: Text(
-                      product.title,
-                      overflow: TextOverflow.fade,
-                      style: TextStylesManager.font16BlackRegular,
-                    ),
-                  ),
-                  Text.rich(
-                    textAlign: TextAlign.center,
-                    TextSpan(
-                      text: 'EGP ',
-                      style: TextStylesManager.font16BlackRegular,
-                      children: [
-                        TextSpan(
-                          text: '${product.price}',
-                          style: TextStylesManager.font18BlackMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Gap(32.h),
-              Text(
-                product.description,
-                style: TextStylesManager.font14BlackMedium,
-              ),
-              Gap(42.h),
-              BlocListener<ProductCubit, ProductState>(
-                listener: (context, state) {
-                  if (state is AddToCartSuccess) {
-                    AppToast.showToast(
-                      context: context,
-                      title: 'Product added to cart',
-                      type: ToastificationType.success,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 16.h, right: 16.w, left: 16.w),
+            child: Column(
+              children: [
+                ProductPageView(
+                  product: product,
+                  onToggleFavorite: () {
+                    context.read<ProductCubit>().toggleFavoriteProduct(
+                      product.id,
                     );
-                  } else if (state is AddToCartFailure) {
-                    AppToast.showToast(
-                      context: context,
-                      title: 'Product Already added',
-                      type: ToastificationType.info,
-                    );
-                  }
-                },
-                child: CustomMaterialButton(
-                  onPressed: () =>
-                      context.read<ProductCubit>().addToCart(product.id),
-                  text: 'Add to cart',
-                  borderRadius: BorderRadius.circular(8.r),
-                  color: ColorsManager.color212121,
-                  maxWidth: true,
-                  padding: EdgeInsetsGeometry.symmetric(vertical: 15.h),
-                  textStyle: TextStylesManager.font16WhiteMedium,
+                    hasChanges = true;
+                  },
                 ),
-              ),
-            ],
+                Gap(12.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  spacing: 40.w,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        product.title,
+                        overflow: TextOverflow.fade,
+                        style: TextStylesManager.font16BlackRegular,
+                      ),
+                    ),
+                    Text.rich(
+                      textAlign: TextAlign.center,
+                      TextSpan(
+                        text: 'EGP ',
+                        style: TextStylesManager.font16BlackRegular,
+                        children: [
+                          TextSpan(
+                            text: '${product.price}',
+                            style: TextStylesManager.font18BlackMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Gap(32.h),
+                Text(
+                  product.description,
+                  style: TextStylesManager.font14BlackMedium,
+                ),
+                Gap(42.h),
+                BlocListener<ProductCubit, ProductState>(
+                  listener: (context, state) {
+                    if (state is AddToCartSuccess) {
+                      AppToast.showToast(
+                        context: context,
+                        title: 'Product added to cart',
+                        type: ToastificationType.success,
+                      );
+                    } else if (state is AddToCartFailure) {
+                      AppToast.showToast(
+                        context: context,
+                        title: 'Product Already added',
+                        type: ToastificationType.info,
+                      );
+                    }
+                  },
+                  child: CustomMaterialButton(
+                    onPressed: () =>
+                        context.read<ProductCubit>().addToCart(product.id),
+                    text: 'Add to cart',
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: ColorsManager.color212121,
+                    maxWidth: true,
+                    padding: EdgeInsetsGeometry.symmetric(vertical: 15.h),
+                    textStyle: TextStylesManager.font16WhiteMedium,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

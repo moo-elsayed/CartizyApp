@@ -1,7 +1,7 @@
 import 'package:cartizy_app_nti/core/entities/product_entity.dart';
-import 'package:cartizy_app_nti/feature/home/domain/use_cases/mark_product_as_favorite_or_not.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
+import 'package:cartizy_app_nti/feature/home/domain/use_cases/home_toggle_favorite.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/helpers/network_response.dart';
 import '../../../domain/entities/category_entity.dart';
@@ -12,20 +12,21 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit(
     this._getAllCategoriesUseCase,
     this._getProductsByCategoryUseCase,
-    this._addProductToFavoriteUseCase,
+    this._homeToggleFavoriteUseCase,
   ) : super(HomeInitial());
 
   final GetAllCategoriesUseCase _getAllCategoriesUseCase;
   final GetProductsByCategoryUseCase _getProductsByCategoryUseCase;
-  final MarkProductAsFavoriteOrNot _addProductToFavoriteUseCase;
-
+  final HomeToggleFavoriteUseCase _homeToggleFavoriteUseCase;
   Map<int, List<ProductEntity>> categoryProducts = {};
+  List<int> categoriesIds = [];
 
   Future<void> getAllCategories() async {
     emit(GetAllCategoriesLoading());
     final result = await _getAllCategoriesUseCase.call();
     switch (result) {
       case NetworkSuccess<List<CategoryEntity>>():
+        categoriesIds.addAll(result.data?.map((e) => e.id) ?? []);
         emit(GetAllCategoriesSuccess(result.data ?? []));
       case NetworkFailure<List<CategoryEntity>>():
         emit(GetAllCategoriesFailure(result.exception.toString()));
@@ -44,7 +45,13 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  void markProductAsFavoriteOrNot(int productId) {
-    _addProductToFavoriteUseCase.call(productId);
+  void toggleFavoriteProduct(int productId) {
+    _homeToggleFavoriteUseCase.call(productId);
+  }
+
+  void clear() {
+    categoryProducts.clear();
+    categoriesIds.clear();
+    emit(HomeInitial());
   }
 }

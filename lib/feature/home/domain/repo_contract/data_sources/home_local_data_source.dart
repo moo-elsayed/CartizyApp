@@ -8,5 +8,4 @@ abstract class HomeLocalDataSource {
 
   bool addProductToCart(int productId);
 
-  void markProductAsFavoriteOrNot(int productId);
 }
