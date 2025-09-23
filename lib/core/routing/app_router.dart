@@ -8,6 +8,8 @@ import 'package:cartizy_app_nti/feature/favorite/presentation/managers/favorite_
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/home_toggle_favorite.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/managers/product_cubit/product_cubit.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/views/product_view.dart';
+import 'package:cartizy_app_nti/feature/profile/domain/use_cases/get_profile_use_case.dart';
+import 'package:cartizy_app_nti/feature/profile/presentation/managers/profile_cubit/profile_cubit.dart';
 import 'package:cartizy_app_nti/feature/search/domain/use_cases/search_products_use_case.dart';
 import 'package:cartizy_app_nti/feature/search/presentation/managers/search_cubit/search_cubit.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +25,7 @@ import '../../feature/home/domain/use_cases/add_product_to_cart_use_case.dart';
 import '../../feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import '../../feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import '../../feature/home/presentation/managers/home_cubit/home_cubit.dart';
-import '../../feature/home/presentation/views/home_view.dart';
+import '../../feature/home/presentation/views/home.dart';
 import '../../feature/onboarding/presentation/views/onboarding_view.dart';
 import '../../feature/search/presentation/views/search_view.dart';
 
@@ -52,7 +54,7 @@ class AppRouter {
                   getIt.get<GetProductsByCategoryUseCase>(),
                   getIt.get<HomeToggleFavoriteUseCase>(),
                 )..getAllCategories(),
-                child: const HomeView(),
+                child: const Home(),
               ),
               BlocProvider(
                 create: (context) => CartCubit(
@@ -65,6 +67,10 @@ class AppRouter {
                   getIt.get<GetFavoritesUseCase>(),
                   getIt.get<ToggleFavoriteUseCase>(),
                 ),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    ProfileCubit(getIt.get<GetProfileUseCase>()),
               ),
             ],
             child: const AppSection(),
@@ -81,7 +87,7 @@ class AppRouter {
                   getIt.get<GetProductsByCategoryUseCase>(),
                   getIt.get<HomeToggleFavoriteUseCase>(),
                 ),
-                child: const HomeView(),
+                child: const Home(),
               ),
               BlocProvider(
                 create: (context) => ProductCubit(

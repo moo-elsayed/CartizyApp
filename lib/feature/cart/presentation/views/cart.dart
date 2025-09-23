@@ -10,8 +10,8 @@ import '../../../../core/widgets/app_toasts.dart';
 import '../widgets/cart_body_widget.dart';
 import '../widgets/empty_cart_widget.dart';
 
-class CartView extends StatelessWidget {
-  const CartView({super.key});
+class Cart extends StatelessWidget {
+  const Cart({super.key});
 
   @override
   Widget build(BuildContext context) {

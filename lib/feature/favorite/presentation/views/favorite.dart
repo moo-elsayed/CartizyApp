@@ -11,8 +11,8 @@ import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/products_grid_view.dart';
 import '../widgets/no_favorites_body.dart';
 
-class FavoriteView extends StatelessWidget {
-  const FavoriteView({super.key});
+class Favorite extends StatelessWidget {
+  const Favorite({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +21,9 @@ class FavoriteView extends StatelessWidget {
       child: Column(
         children: [
           Gap(12.h),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'My Favorites',
-              style: TextStylesManager.font22RobotoColor212121SemiBold,
-            ),
+          Text(
+            'My Favorites',
+            style: TextStylesManager.font22RobotoColor212121SemiBold,
           ),
           Gap(12.h),
           BlocConsumer<FavoriteCubit, FavoriteState>(

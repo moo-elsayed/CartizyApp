@@ -1,5 +1,5 @@
-class RegisterResponseEntity {
-  const RegisterResponseEntity({
+class UserEntity {
+  const UserEntity({
     this.id = 0,
     this.email = '',
     this.password = '',

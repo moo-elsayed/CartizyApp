@@ -15,14 +15,14 @@ import '../../../../core/entities/product_entity.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/products_grid_view.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<Home> createState() => _HomeState();
 }
 
-class _HomeViewState extends State<HomeView>
+class _HomeState extends State<Home>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedTabIndex = 0;

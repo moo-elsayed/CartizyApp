@@ -1,12 +1,11 @@
 import 'package:cartizy_app_nti/core/helpers/hive_helper.dart';
 import 'package:cartizy_app_nti/core/helpers/network_response.dart';
-import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_local_data_source_imp.dart';
-import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_remote_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/home/domain/entities/category_entity.dart';
 import 'package:cartizy_app_nti/core/entities/product_entity.dart';
 import 'package:cartizy_app_nti/feature/home/domain/repo_contract/repo/home_repo.dart';
-
 import '../../../../../core/helpers/shared_preferences_manager.dart';
+import '../data_sources/home_local_data_source_imp.dart';
+import '../data_sources/home_remote_data_source_imp.dart';
 
 class HomeRepoImp implements HomeRepo {
   HomeRepoImp(this._homeRemoteDataSourceImp, this._homeLocalDataSourceImp);
@@ -16,12 +15,15 @@ class HomeRepoImp implements HomeRepo {
 
   @override
   Future<NetworkResponse<List<CategoryEntity>>> getAllCategories() async {
-    List<CategoryEntity> categories;
-    final lastFetch = await SharedPreferencesManager.getLastFetchTime();
+    List result = await Future.wait([
+      SharedPreferencesManager.getLastFetchTime(),
+      _homeLocalDataSourceImp.getAllCategories(),
+    ]);
+    final lastFetch = result[0];
+    List<CategoryEntity> categories = result[1];
     final isCacheValid =
         lastFetch != null &&
         DateTime.now().difference(lastFetch) < HiveHelper.cacheValidity;
-    categories = await _homeLocalDataSourceImp.getAllCategories();
     if (categories.isEmpty || !isCacheValid) {
       final result = await _homeRemoteDataSourceImp.getAllCategories();
       switch (result) {
@@ -42,12 +44,15 @@ class HomeRepoImp implements HomeRepo {
   Future<NetworkResponse<List<ProductEntity>>> getProductsByCategory(
     int categoryId,
   ) async {
-    final lastFetch = await SharedPreferencesManager.getLastFetchTime();
+    List result = await Future.wait([
+      SharedPreferencesManager.getLastFetchTime(),
+      _homeLocalDataSourceImp.getProductsByCategory(categoryId),
+    ]);
+    final lastFetch = result[0];
+    List<ProductEntity> products = result[1];
     final isCacheValid =
         lastFetch != null &&
         DateTime.now().difference(lastFetch) < HiveHelper.cacheValidity;
-    List<ProductEntity> products;
-    products = await _homeLocalDataSourceImp.getProductsByCategory(categoryId);
     if (products.isEmpty || !isCacheValid) {
       final result = await _homeRemoteDataSourceImp.getProductsByCategory(
         categoryId,
