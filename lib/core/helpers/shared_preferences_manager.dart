@@ -5,6 +5,7 @@ class SharedPreferencesManager {
   static const String isUserLoggedInKey = 'isUserLoggedIn';
   static const String userTokenKey = 'userToken';
   static const String refreshTokenKey = 'refreshToken';
+  static const String lastFetchTimeKey = 'lastFetchTime';
 
   static Future<void> setFirstTime(bool isFirstTime) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -44,5 +45,17 @@ class SharedPreferencesManager {
   static Future<String> getRefreshToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(refreshTokenKey) ?? '';
+  }
+
+  static Future<void> setLastFetchTime(DateTime time) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(lastFetchTimeKey, time.millisecondsSinceEpoch);
+  }
+
+  static Future<DateTime?> getLastFetchTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final millis = prefs.getInt(lastFetchTimeKey);
+    if (millis == null) return null;
+    return DateTime.fromMillisecondsSinceEpoch(millis);
   }
 }
