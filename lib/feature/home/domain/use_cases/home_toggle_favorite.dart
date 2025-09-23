@@ -1,7 +1,7 @@
 import 'package:cartizy_app_nti/feature/favorite/domain/use_cases/toggle_favorite.dart';
 
 class HomeToggleFavoriteUseCase {
-  /// use another use case from favorite feature
+  /// we will use ToggleFavoriteUseCase from favorite feature
 
   HomeToggleFavoriteUseCase(this._toggleFavoriteUseCase);
 

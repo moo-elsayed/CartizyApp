@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cartizy_app_nti/core/helpers/app_assets.dart';
+import 'package:cartizy_app_nti/core/helpers/extentions.dart';
 import 'package:cartizy_app_nti/core/widgets/text_form_field_helper.dart';
 import 'package:cartizy_app_nti/feature/search/presentation/managers/search_cubit/search_cubit.dart';
 import 'package:cartizy_app_nti/feature/search/presentation/widgets/search_app_bar.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toastification/toastification.dart';
+import '../../../../core/entities/product_entity.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors_manager.dart';
 import '../../../../core/widgets/app_toasts.dart';
 import '../../../../core/widgets/products_grid_view.dart';
@@ -126,12 +129,29 @@ class _SearchViewState extends State<SearchView> {
                         );
                       } else {
                         return Expanded(
-                          child: ProductsGridView(products: state.products),
+                          child: ProductsGridView(
+                            products: state.products,
+                            onTap: (product) {
+                              context.pushNamed(
+                                Routes.productView,
+                                arguments: product,
+                              );
+                            },
+                            onToggleFavorite: (product) {
+                              // context.read<FavoriteCubit>().toggleFavorite(
+                              //   product.id,
+                              // );
+                            },
+                          ),
                         );
                       }
                     } else if (state is SearchLoading) {
-                      return const Expanded(
-                        child: ProductsGridView(loading: true),
+                      return Expanded(
+                        child: ProductsGridView(
+                          loading: true,
+                          onTap: (product) {},
+                          onToggleFavorite: (ProductEntity product) {},
+                        ),
                       );
                     } else {
                       return const SearchPlaceholderWidget(

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cartizy_app_nti/core/helpers/extentions.dart';
 import 'package:cartizy_app_nti/core/widgets/app_toasts.dart';
 import 'package:cartizy_app_nti/core/widgets/custom_fading_widget.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/managers/home_cubit/home_cubit.dart';
@@ -10,7 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:toastification/toastification.dart';
-
+import '../../../../core/entities/product_entity.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/products_grid_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -25,9 +27,11 @@ class _HomeViewState extends State<HomeView>
   late TabController _tabController;
   int _selectedTabIndex = 0;
   bool isTabControllerInitialized = false;
-  List<int> categoriesIds = [];
 
   void _initTabController(GetAllCategoriesSuccess state) {
+    if (isTabControllerInitialized) {
+      _tabController.dispose();
+    }
     _tabController = TabController(
       length: state.categories.length,
       vsync: this,
@@ -36,7 +40,7 @@ class _HomeViewState extends State<HomeView>
     isTabControllerInitialized = true;
 
     _tabController.addListener(() {
-      if (_tabController.indexIsChanging == false &&
+      if (!_tabController.indexIsChanging &&
           _tabController.index != _selectedTabIndex) {
         setState(() {
           _selectedTabIndex = _tabController.index;
@@ -47,13 +51,20 @@ class _HomeViewState extends State<HomeView>
   }
 
   void _getProducts(int selectedTabIndex) {
-    if (context
-            .read<HomeCubit>()
-            .categoryProducts[categoriesIds[selectedTabIndex]] ==
-        null) {
-      context.read<HomeCubit>().getProductsByCategory(
-        categoriesIds[selectedTabIndex],
-      );
+    final categoriesIds = context.read<HomeCubit>().categoriesIds;
+    if (categoriesIds.isEmpty) return;
+    final int currentCategoryId = categoriesIds[selectedTabIndex];
+    log('hi');
+    context.read<HomeCubit>().getProductsByCategory(currentCategoryId);
+  }
+
+  void _refreshAllCategoryProducts() {
+    final homeCubit = context.read<HomeCubit>();
+    if (homeCubit.categoriesIds.isNotEmpty) {
+      _getProducts(_selectedTabIndex);
+    } else {
+      log('hello');
+      homeCubit.getAllCategories();
     }
   }
 
@@ -80,21 +91,20 @@ class _HomeViewState extends State<HomeView>
               );
               log(state.error);
             }
-            if (state is GetAllCategoriesSuccess) {
-              categoriesIds = state.categories.map((e) => e.id).toList();
-              _getProducts(_selectedTabIndex);
-              if (!isTabControllerInitialized) {
-                _initTabController(state);
-              }
-            }
           },
           buildWhen: (previous, current) {
             return current is GetAllCategoriesSuccess ||
                 current is GetAllCategoriesFailure ||
-                current is GetAllCategoriesLoading;
+                current is GetAllCategoriesLoading ||
+                current is HomeInitial;
           },
           builder: (context, state) {
             if (state is GetAllCategoriesSuccess) {
+              if (!isTabControllerInitialized) {
+                _initTabController(state);
+              }
+              _getProducts(_selectedTabIndex);
+
               return TabContainerWidget(
                 categories: state.categories,
                 tabController: _tabController,
@@ -131,7 +141,8 @@ class _HomeViewState extends State<HomeView>
           buildWhen: (previous, current) {
             return current is GetProductsByCategorySuccess ||
                 current is GetProductsByCategoryFailure ||
-                current is GetProductsByCategoryLoading;
+                current is GetProductsByCategoryLoading ||
+                current is HomeInitial;
           },
           builder: (context, state) {
             if (state is GetProductsByCategorySuccess) {
@@ -139,25 +150,54 @@ class _HomeViewState extends State<HomeView>
                 child: TabBarView(
                   controller: _tabController,
                   children: List.generate(_tabController.length, (index) {
-                    final categoryId = categoriesIds[index];
+                    final categoryId = context
+                        .read<HomeCubit>()
+                        .categoriesIds[index];
                     final products = context
                         .read<HomeCubit>()
                         .categoryProducts[categoryId];
 
                     if (products == null) {
-                      return const ProductsGridView(loading: true);
+                      return ProductsGridView(
+                        loading: true,
+                        onTap: (ProductEntity product) {},
+                        onToggleFavorite: (ProductEntity product) {},
+                      );
                     } else if (products.isEmpty) {
                       return const Center(
                         child: Text('No products found for this category'),
                       );
                     } else {
-                      return ProductsGridView(products: products);
+                      return ProductsGridView(
+                        products: products,
+                        onTap: (ProductEntity product) async {
+                          var result = await context.pushNamed(
+                            Routes.productView,
+                            arguments: product,
+                          );
+                          if (result != null && result) {
+                            context.read<HomeCubit>().clear();
+                            _refreshAllCategoryProducts();
+                          }
+                        },
+                        onToggleFavorite: (product) {
+                          context.read<HomeCubit>().toggleFavoriteProduct(
+                            product.id,
+                          );
+                        },
+                      );
                     }
                   }),
                 ),
               );
             } else if (state is GetProductsByCategoryLoading) {
-              return const Expanded(child: ProductsGridView(loading: true));
+              return Expanded(
+                child: ProductsGridView(
+                  loading: true,
+                  onTap: (product) {},
+                  onToggleFavorite: (ProductEntity product) {},
+                ),
+              );
             } else {
               return const SizedBox.shrink();
             }

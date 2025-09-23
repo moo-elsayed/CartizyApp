@@ -14,6 +14,9 @@ class FavoriteHive {
     int index = box.values.toList().indexWhere(
       (element) => element.id == productId,
     );
+    if (index == -1) {
+      return;
+    }
     if (box.values.toList()[index].isFavorite) {
       box.values.toList()[index].isFavorite = false;
       box.putAt(index, box.values.toList()[index]);

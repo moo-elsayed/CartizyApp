@@ -6,10 +6,20 @@ import '../../feature/home/presentation/widgets/custom_product.dart';
 import 'loading/loading_product.dart';
 
 class ProductsGridView extends StatelessWidget {
-  const ProductsGridView({super.key, this.products, this.loading = false});
+  const ProductsGridView({
+    super.key,
+    this.products,
+    this.loading = false,
+    required this.onTap,
+    required this.onToggleFavorite,
+    this.fromFavorite = false,
+  });
 
   final List<ProductEntity>? products;
   final bool loading;
+  final void Function(ProductEntity product) onTap;
+  final void Function(ProductEntity product) onToggleFavorite;
+  final bool fromFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +36,12 @@ class ProductsGridView extends StatelessWidget {
           return const CustomFadingWidget(child: LoadingProduct());
         } else {
           var product = products![index];
-          return CustomProduct(product: product);
+          return CustomProduct(
+            key: fromFavorite ? ValueKey(product.id) : null,
+            product: product,
+            onTap: () => onTap(product),
+            onToggleFavorite: () => onToggleFavorite(product),
+          );
         }
       },
     );

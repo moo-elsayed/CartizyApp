@@ -1,19 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cartizy_app_nti/core/helpers/extentions.dart';
-import 'package:cartizy_app_nti/core/routing/routes.dart';
 import 'package:cartizy_app_nti/feature/home/presentation/widgets/custom_favorite_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/custom_price.dart';
 import '../../../../core/entities/product_entity.dart';
-import '../managers/home_cubit/home_cubit.dart';
 
 class CustomProduct extends StatefulWidget {
-  const CustomProduct({super.key, required this.product});
+  const CustomProduct({
+    super.key,
+    required this.product,
+    required this.onTap,
+    required this.onToggleFavorite,
+  });
 
   final ProductEntity product;
+  final void Function() onTap;
+  final void Function() onToggleFavorite;
 
   @override
   State<CustomProduct> createState() => _CustomProductState();
@@ -23,10 +26,7 @@ class _CustomProductState extends State<CustomProduct> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus!.unfocus();
-        context.pushNamed(Routes.productView, arguments: widget.product);
-      },
+      onTap: widget.onTap,
       behavior: HitTestBehavior.opaque,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,6 +38,9 @@ class _CustomProductState extends State<CustomProduct> {
               children: [
                 CachedNetworkImage(
                   imageUrl: widget.product.images.first,
+                  height: 155.h,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                   errorWidget:
                       (BuildContext context, String url, Object error) =>
                           Container(
@@ -53,11 +56,7 @@ class _CustomProductState extends State<CustomProduct> {
                   child: CustomFavouriteIcon(
                     isFavourite: widget.product.isFavorite,
                     onChanged: () {
-                      setState(() {
-                        context.read<HomeCubit>().toggleFavoriteProduct(
-                          widget.product.id,
-                        );
-                      });
+                        widget.onToggleFavorite();
                     },
                   ),
                 ),
@@ -66,6 +65,8 @@ class _CustomProductState extends State<CustomProduct> {
           ),
           Text(
             widget.product.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStylesManager.font14BlackRegular,
           ),
           CustomPrice(price: widget.product.price),

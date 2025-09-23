@@ -19,12 +19,14 @@ class HomeCubit extends Cubit<HomeState> {
   final GetProductsByCategoryUseCase _getProductsByCategoryUseCase;
   final HomeToggleFavoriteUseCase _homeToggleFavoriteUseCase;
   Map<int, List<ProductEntity>> categoryProducts = {};
+  List<int> categoriesIds = [];
 
   Future<void> getAllCategories() async {
     emit(GetAllCategoriesLoading());
     final result = await _getAllCategoriesUseCase.call();
     switch (result) {
       case NetworkSuccess<List<CategoryEntity>>():
+        categoriesIds.addAll(result.data?.map((e) => e.id) ?? []);
         emit(GetAllCategoriesSuccess(result.data ?? []));
       case NetworkFailure<List<CategoryEntity>>():
         emit(GetAllCategoriesFailure(result.exception.toString()));
@@ -45,5 +47,11 @@ class HomeCubit extends Cubit<HomeState> {
 
   void toggleFavoriteProduct(int productId) {
     _homeToggleFavoriteUseCase.call(productId);
+  }
+
+  void clear() {
+    categoryProducts.clear();
+    categoriesIds.clear();
+    emit(HomeInitial());
   }
 }
