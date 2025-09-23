@@ -1,10 +1,10 @@
+import 'package:cartizy_app_nti/core/dtos/user_response_dto.dart';
 import 'package:cartizy_app_nti/core/helpers/network_response.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/helpers/app_apis.dart';
 import '../DTOs/request/login_request_dto.dart';
 import '../DTOs/request/register_request_dto.dart';
 import '../DTOs/response/login_response_dto.dart';
-import '../DTOs/response/register_response_dto.dart';
 
 class AuthApi {
   AuthApi._();
@@ -29,7 +29,7 @@ class AuthApi {
     }
   }
 
-  Future<NetworkResponse<RegisterResponseDto>> register(
+  Future<NetworkResponse<UserResponseDto>> register(
     RegisterRequestDto request,
   ) async {
     try {
@@ -37,9 +37,9 @@ class AuthApi {
         '${AppApis.baseUrl}/api/v1/users/',
         data: request.toJson(),
       );
-      return NetworkSuccess<RegisterResponseDto>(RegisterResponseDto.fromJson(response.data));
+      return NetworkSuccess<UserResponseDto>(UserResponseDto.fromJson(response.data));
     } catch (e) {
-      return NetworkFailure<RegisterResponseDto>(Exception(e.toString()));
+      return NetworkFailure<UserResponseDto>(Exception(e.toString()));
     }
   }
 }

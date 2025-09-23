@@ -1,30 +1,34 @@
 import 'package:cartizy_app_nti/feature/auth/data/api/auth_api.dart';
-import 'package:cartizy_app_nti/feature/auth/data/repo_implementation/data_source/auth_remote_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/auth/domain/use_cases/login_use_case.dart';
 import 'package:cartizy_app_nti/feature/auth/domain/use_cases/register_use_case.dart';
-import 'package:cartizy_app_nti/feature/cart/data/repo_implementation/data_sources/cart_local_data_source_imp.dart';
-import 'package:cartizy_app_nti/feature/cart/data/repo_implementation/repo/cart_repo_imp.dart';
 import 'package:cartizy_app_nti/feature/favorite/data/hive/favorite_hive.dart';
 import 'package:cartizy_app_nti/feature/favorite/data/repo_imp/data_sources/favorite_local_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/favorite/data/repo_imp/repo/favorite_repo_imp.dart';
 import 'package:cartizy_app_nti/feature/favorite/domain/use_cases/get_favorites_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/data/api/home_api.dart';
-import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_local_data_source_imp.dart';
-import 'package:cartizy_app_nti/feature/home/data/repo_implementation/data_sources/home_remote_data_source_imp.dart';
-import 'package:cartizy_app_nti/feature/home/data/repo_implementation/repo/home_repo_imp.dart';
 import 'package:cartizy_app_nti/feature/favorite/domain/use_cases/toggle_favorite.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/home_toggle_favorite.dart';
+import 'package:cartizy_app_nti/feature/profile/data/api/profile_api.dart';
+import 'package:cartizy_app_nti/feature/profile/data/repo_imp/data_sources/profile_remote_data_source_imp.dart';
+import 'package:cartizy_app_nti/feature/profile/data/repo_imp/repo/profile_repo_imp.dart';
 import 'package:cartizy_app_nti/feature/search/data/api/search_api.dart';
 import 'package:cartizy_app_nti/feature/search/data/repo_imp/data_sources/search_remote_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/search/data/repo_imp/repo/search_repo_implementation.dart';
 import 'package:cartizy_app_nti/feature/search/domain/use_cases/search_products_use_case.dart';
 import 'package:get_it/get_it.dart';
-import '../../feature/auth/data/repo_implementation/repo/auth_repo_imp.dart';
+import '../../feature/auth/data/repo_imp/data_source/auth_remote_data_source_imp.dart';
+import '../../feature/auth/data/repo_imp/repo/auth_repo_imp.dart';
+import '../../feature/cart/data/repo_imp/data_sources/cart_local_data_source_imp.dart';
+import '../../feature/cart/data/repo_imp/repo/cart_repo_imp.dart';
 import '../../feature/cart/domain/use_cases/get_products_use_case.dart';
 import '../../feature/cart/domain/use_cases/remove_product_use_case.dart';
+import '../../feature/home/data/repo_imp/data_sources/home_local_data_source_imp.dart';
+import '../../feature/home/data/repo_imp/data_sources/home_remote_data_source_imp.dart';
+import '../../feature/home/data/repo_imp/repo/home_repo_imp.dart';
 import '../../feature/home/domain/use_cases/add_product_to_cart_use_case.dart';
+import '../../feature/profile/domain/use_cases/get_profile_use_case.dart';
 
 final getIt = GetIt.instance;
 
@@ -96,5 +100,16 @@ void setupServiceLocator() {
     SearchProductsUseCase(
       SearchRepoImp(SearchRemoteDataSourceImp(SearchApi.instance)),
     ),
+  );
+
+  ////////////////////////////
+
+  ///profile
+  getIt.registerSingleton<ProfileRepoImp>(
+    ProfileRepoImp(ProfileRemoteDataSourceImp(ProfileApi.instance)),
+  );
+
+  getIt.registerSingleton<GetProfileUseCase>(
+    GetProfileUseCase(getIt.get<ProfileRepoImp>()),
   );
 }

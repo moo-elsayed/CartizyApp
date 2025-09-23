@@ -1,6 +1,6 @@
 import 'package:cartizy_app_nti/core/helpers/network_response.dart';
 import 'package:cartizy_app_nti/feature/auth/domain/entities/response/login_response_entity.dart';
-import 'package:cartizy_app_nti/feature/auth/domain/entities/response/register_response_entity.dart';
+import 'package:cartizy_app_nti/core/entities/user_entity.dart';
 import 'package:cartizy_app_nti/feature/auth/domain/repo_contract/data_source/auth_remote_data_source.dart';
 import '../../../domain/repo_contract/repo/auth_repo.dart';
 
@@ -17,7 +17,7 @@ class AuthRepoImp implements AuthRepo {
       await _authRemoteDataSource.login(password: password, email: email);
 
   @override
-  Future<NetworkResponse<RegisterResponseEntity>> register({
+  Future<NetworkResponse<UserEntity>> register({
     required String email,
     required String password,
     required String name,

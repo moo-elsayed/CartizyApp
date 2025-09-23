@@ -1,7 +1,7 @@
-import 'package:cartizy_app_nti/feature/auth/data/DTOs/response/register_response_dto.dart';
+import '../../../../../core/dtos/user_response_dto.dart';
 import '../../../../../core/helpers/network_response.dart';
 import '../../../domain/entities/response/login_response_entity.dart';
-import '../../../domain/entities/response/register_response_entity.dart';
+import '../../../../../core/entities/user_entity.dart';
 import '../../../domain/repo_contract/data_source/auth_remote_data_source.dart';
 import '../../DTOs/request/login_request_dto.dart';
 import '../../DTOs/request/register_request_dto.dart';
@@ -31,7 +31,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
   }
 
   @override
-  Future<NetworkResponse<RegisterResponseEntity>> register({
+  Future<NetworkResponse<UserEntity>> register({
     required String email,
     required String password,
     required String name,
@@ -43,10 +43,10 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     );
     final result = await _authApi.register(request);
     switch (result) {
-      case NetworkSuccess<RegisterResponseDto>():
-        return NetworkSuccess<RegisterResponseEntity>(result.data?.toEntity());
-      case NetworkFailure<RegisterResponseDto>():
-        return NetworkFailure<RegisterResponseEntity>(
+      case NetworkSuccess<UserResponseDto>():
+        return NetworkSuccess<UserEntity>(result.data?.toEntity());
+      case NetworkFailure<UserResponseDto>():
+        return NetworkFailure<UserEntity>(
           Exception(result.exception),
         );
     }
