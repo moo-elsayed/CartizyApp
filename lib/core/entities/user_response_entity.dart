@@ -1,5 +1,5 @@
-class UserEntity {
-  const UserEntity({
+class UserResponseEntity {
+  const UserResponseEntity({
     this.id = 0,
     this.email = '',
     this.password = '',

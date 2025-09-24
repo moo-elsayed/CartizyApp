@@ -1,8 +1,13 @@
-import 'package:cartizy_app_nti/core/entities/user_entity.dart';
+import 'package:cartizy_app_nti/core/dtos/user_request_dto.dart';
+import 'package:cartizy_app_nti/core/entities/user_response_entity.dart';
 import 'package:cartizy_app_nti/core/helpers/network_response.dart';
 import 'package:cartizy_app_nti/feature/profile/data/api/profile_api.dart';
+import 'package:cartizy_app_nti/feature/profile/domain/entities/upload_entity.dart';
 import 'package:cartizy_app_nti/feature/profile/domain/repo_contract/data_sources/profile_remote_data_source.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../../core/dtos/user_response_dto.dart';
+import '../../../domain/entities/user_request_entity.dart';
+import '../../dtos/response/upload_response_dto.dart';
 
 class ProfileRemoteDataSourceImp implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImp(this._profileApi);
@@ -10,13 +15,41 @@ class ProfileRemoteDataSourceImp implements ProfileRemoteDataSource {
   final ProfileApi _profileApi;
 
   @override
-  Future<NetworkResponse<UserEntity>> getProfile() async {
+  Future<NetworkResponse<UserResponseEntity>> getProfile() async {
     final response = await _profileApi.getProfile();
     switch (response) {
       case NetworkSuccess<UserResponseDto>():
-        return NetworkSuccess<UserEntity>(response.data?.toEntity());
+        return NetworkSuccess<UserResponseEntity>(response.data?.toEntity());
       case NetworkFailure<UserResponseDto>():
-        return NetworkFailure<UserEntity>(response.exception);
+        return NetworkFailure<UserResponseEntity>(response.exception);
+    }
+  }
+
+  @override
+  Future<NetworkResponse<UploadEntity>> uploadImage(XFile file) async {
+    final response = await _profileApi.uploadImage(file);
+    switch (response) {
+      case NetworkSuccess<UploadResponseDto>():
+        return NetworkSuccess<UploadEntity>(response.data?.toEntity());
+      case NetworkFailure<UploadResponseDto>():
+        return NetworkFailure<UploadEntity>(response.exception);
+    }
+  }
+
+  @override
+  Future<NetworkResponse<UserResponseEntity>> updateProfile({
+    required UserRequestEntity user,
+    required int id,
+  }) async {
+    final response = await _profileApi.updateProfile(
+      user: UserRequestDto.fromEntity(user),
+      id: id,
+    );
+    switch (response) {
+      case NetworkSuccess<UserResponseDto>():
+        return NetworkSuccess<UserResponseEntity>(response.data?.toEntity());
+      case NetworkFailure<UserResponseDto>():
+        return NetworkFailure<UserResponseEntity>(response.exception);
     }
   }
 }

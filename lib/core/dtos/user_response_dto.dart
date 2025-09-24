@@ -1,4 +1,4 @@
-import 'package:cartizy_app_nti/core/entities/user_entity.dart';
+import 'package:cartizy_app_nti/core/entities/user_response_entity.dart';
 
 class UserResponseDto {
   UserResponseDto({
@@ -32,7 +32,7 @@ class UserResponseDto {
     updatedAt = json['updatedAt'];
   }
 
-  UserEntity toEntity() => UserEntity(
+  UserResponseEntity toEntity() => UserResponseEntity(
     id: id ?? 0,
     email: email ?? '',
     password: password ?? '',
@@ -40,4 +40,6 @@ class UserResponseDto {
     role: role ?? '',
     avatar: avatar ?? '',
   );
+
+
 }

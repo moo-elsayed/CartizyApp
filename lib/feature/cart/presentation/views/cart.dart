@@ -53,7 +53,7 @@ class Cart extends StatelessWidget {
                     image: AppAssets.emptyCart,
                   );
                 } else {
-                  return CartBodyWidget();
+                  return const CartBodyWidget();
                 }
               }
               return const SizedBox();

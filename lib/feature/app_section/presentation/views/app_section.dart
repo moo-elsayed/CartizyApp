@@ -59,6 +59,7 @@ class _AppSectionState extends State<AppSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: _pages[_index],
       ),

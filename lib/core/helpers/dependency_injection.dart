@@ -29,6 +29,8 @@ import '../../feature/home/data/repo_imp/data_sources/home_remote_data_source_im
 import '../../feature/home/data/repo_imp/repo/home_repo_imp.dart';
 import '../../feature/home/domain/use_cases/add_product_to_cart_use_case.dart';
 import '../../feature/profile/domain/use_cases/get_profile_use_case.dart';
+import '../../feature/profile/domain/use_cases/update_profile_use_case.dart';
+import '../../feature/profile/domain/use_cases/upload_image_use_case.dart';
 
 final getIt = GetIt.instance;
 
@@ -111,5 +113,13 @@ void setupServiceLocator() {
 
   getIt.registerSingleton<GetProfileUseCase>(
     GetProfileUseCase(getIt.get<ProfileRepoImp>()),
+  );
+
+  getIt.registerSingleton<UploadImageUseCase>(
+    UploadImageUseCase(getIt.get<ProfileRepoImp>()),
+  );
+
+  getIt.registerSingleton<UpdateProfileUseCase>(
+    UpdateProfileUseCase(getIt.get<ProfileRepoImp>()),
   );
 }
