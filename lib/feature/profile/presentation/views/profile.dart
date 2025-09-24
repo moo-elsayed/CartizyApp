@@ -32,56 +32,58 @@ class _ProfileState extends State<Profile> {
           ),
         ),
         Gap(12.h),
-        BlocConsumer<ProfileCubit, ProfileState>(
-          listener: (context, state) {
-            if (state is UploadImageLoading) {
-              AppDialogs.showLoadingDialog(context);
-            } else if (state is UploadImageFailure ||
-                state is UpdateProfileFailure) {
-              if (state is UploadImageFailure) {
-                context.pop();
+        Expanded(
+          child: BlocConsumer<ProfileCubit, ProfileState>(
+            listener: (context, state) {
+              if (state is UploadImageLoading) {
+                AppDialogs.showLoadingDialog(context);
+              } else if (state is UploadImageFailure ||
+                  state is UpdateProfileFailure) {
+                if (state is UploadImageFailure) {
+                  context.pop();
+                }
+                AppToast.showToast(
+                  context: context,
+                  title: state is UploadImageFailure
+                      ? state.errorMessage
+                      : (state as UpdateProfileFailure).errorMessage,
+                  type: ToastificationType.error,
+                );
               }
-              AppToast.showToast(
-                context: context,
-                title: state is UploadImageFailure
-                    ? state.errorMessage
-                    : (state as UpdateProfileFailure).errorMessage,
-                type: ToastificationType.error,
-              );
-            }
-            if (state is UploadImageSuccess) {
-              context.pop();
-              AppToast.showToast(
-                context: context,
-                title: 'Image uploaded successfully',
-                type: ToastificationType.success,
-              );
-            }
-            if (state is UpdateProfileSuccess) {
-              AppToast.showToast(
-                context: context,
-                title: 'Profile updated successfully',
-                type: ToastificationType.success,
-              );
-            }
-          },
-          buildWhen: (previous, current) =>
-              current is GetProfileSuccess ||
-              current is GetProfileFailure ||
-              current is GetProfileLoading,
-          builder: (context, state) {
-            if (state is GetProfileSuccess) {
-              return ProfileBody(
-                user:
-                    context.read<ProfileCubit>().user ??
-                    const UserResponseEntity(),
-              );
-            } else if (state is GetProfileFailure) {
-              return Center(child: Text(state.errorMessage));
-            } else {
-              return const Center(child: CupertinoActivityIndicator());
-            }
-          },
+              if (state is UploadImageSuccess) {
+                context.pop();
+                AppToast.showToast(
+                  context: context,
+                  title: 'Image uploaded successfully',
+                  type: ToastificationType.success,
+                );
+              }
+              if (state is UpdateProfileSuccess) {
+                AppToast.showToast(
+                  context: context,
+                  title: 'Profile updated successfully',
+                  type: ToastificationType.success,
+                );
+              }
+            },
+            buildWhen: (previous, current) =>
+                current is GetProfileSuccess ||
+                current is GetProfileFailure ||
+                current is GetProfileLoading,
+            builder: (context, state) {
+              if (state is GetProfileSuccess) {
+                return ProfileBody(
+                  user:
+                      context.read<ProfileCubit>().user ??
+                      const UserResponseEntity(),
+                );
+              } else if (state is GetProfileFailure) {
+                return Center(child: Text(state.errorMessage));
+              } else {
+                return const Center(child: CupertinoActivityIndicator());
+              }
+            },
+          ),
         ),
       ],
     );

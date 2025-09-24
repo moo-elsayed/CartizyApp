@@ -59,10 +59,7 @@ class _AppSectionState extends State<AppSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: _pages[_index],
-      ),
+      body: SafeArea(child: _pages[_index]),
       bottomNavigationBar: CustomBottomNavigationBar(
         onItemTapped: _onItemTapped,
         labels: labels,

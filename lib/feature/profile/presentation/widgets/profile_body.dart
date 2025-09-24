@@ -174,6 +174,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                   );
                 },
               ),
+              Gap(20.h),
             ],
           ),
         ),
