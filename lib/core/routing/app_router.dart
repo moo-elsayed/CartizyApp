@@ -27,6 +27,8 @@ import '../../feature/home/domain/use_cases/get_products_by_category_use_case.da
 import '../../feature/home/presentation/managers/home_cubit/home_cubit.dart';
 import '../../feature/home/presentation/views/home.dart';
 import '../../feature/onboarding/presentation/views/onboarding_view.dart';
+import '../../feature/profile/domain/use_cases/update_profile_use_case.dart';
+import '../../feature/profile/domain/use_cases/upload_image_use_case.dart';
 import '../../feature/search/presentation/views/search_view.dart';
 
 class AppRouter {
@@ -69,8 +71,11 @@ class AppRouter {
                 ),
               ),
               BlocProvider(
-                create: (context) =>
-                    ProfileCubit(getIt.get<GetProfileUseCase>()),
+                create: (context) => ProfileCubit(
+                  getIt.get<GetProfileUseCase>(),
+                  getIt.get<UploadImageUseCase>(),
+                  getIt.get<UpdateProfileUseCase>(),
+                ),
               ),
             ],
             child: const AppSection(),

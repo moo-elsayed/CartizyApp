@@ -1,9 +1,9 @@
+import 'package:cartizy_app_nti/core/dtos/user_request_dto.dart';
 import 'package:cartizy_app_nti/core/dtos/user_response_dto.dart';
 import 'package:cartizy_app_nti/core/helpers/network_response.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/helpers/app_apis.dart';
 import '../DTOs/request/login_request_dto.dart';
-import '../DTOs/request/register_request_dto.dart';
 import '../DTOs/response/login_response_dto.dart';
 
 class AuthApi {
@@ -30,7 +30,7 @@ class AuthApi {
   }
 
   Future<NetworkResponse<UserResponseDto>> register(
-    RegisterRequestDto request,
+    UserRequestDto request,
   ) async {
     try {
       final response = await _dio.post(

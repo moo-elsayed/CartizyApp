@@ -1,13 +1,13 @@
 import 'package:cartizy_app_nti/feature/auth/domain/repo_contract/repo/auth_repo.dart';
 import '../../../../core/helpers/network_response.dart';
-import '../../../../core/entities/user_entity.dart';
+import '../../../../core/entities/user_response_entity.dart';
 
 class RegisterUseCase {
   RegisterUseCase(this._authRepo);
 
   final AuthRepo _authRepo;
 
-  Future<NetworkResponse<UserEntity>> call({
+  Future<NetworkResponse<UserResponseEntity>> call({
     required String email,
     required String password,
     required String name,
