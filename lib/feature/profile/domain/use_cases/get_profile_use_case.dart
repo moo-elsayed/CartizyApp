@@ -7,5 +7,6 @@ class GetProfileUseCase {
 
   final ProfileRepo _profileRepo;
 
-  Future<NetworkResponse<UserResponseEntity>> call() => _profileRepo.getProfile();
+  Future<NetworkResponse<UserResponseEntity>> call() async =>
+      await _profileRepo.getProfile();
 }

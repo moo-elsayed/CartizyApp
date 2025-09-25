@@ -11,6 +11,7 @@ import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_all_categories
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/get_products_by_category_use_case.dart';
 import 'package:cartizy_app_nti/feature/home/domain/use_cases/home_toggle_favorite.dart';
 import 'package:cartizy_app_nti/feature/profile/data/api/profile_api.dart';
+import 'package:cartizy_app_nti/feature/profile/data/repo_imp/data_sources/profile_local_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/profile/data/repo_imp/data_sources/profile_remote_data_source_imp.dart';
 import 'package:cartizy_app_nti/feature/profile/data/repo_imp/repo/profile_repo_imp.dart';
 import 'package:cartizy_app_nti/feature/search/data/api/search_api.dart';
@@ -108,7 +109,10 @@ void setupServiceLocator() {
 
   ///profile
   getIt.registerSingleton<ProfileRepoImp>(
-    ProfileRepoImp(ProfileRemoteDataSourceImp(ProfileApi.instance)),
+    ProfileRepoImp(
+      ProfileRemoteDataSourceImp(ProfileApi.instance),
+      ProfileLocalDataSourceImp(),
+    ),
   );
 
   getIt.registerSingleton<GetProfileUseCase>(

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'cartizy_app.dart';
+import 'core/entities/user_response_entity.dart';
 import 'core/helpers/dependency_injection.dart';
 import 'core/helpers/hive_helper.dart';
 import 'core/helpers/shared_preferences_manager.dart';
@@ -18,10 +19,12 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(CategoryEntityAdapter());
   Hive.registerAdapter(ProductEntityAdapter());
+  Hive.registerAdapter(UserResponseEntityAdapter());
 
   List result = await Future.wait([
     Hive.openBox<CategoryEntity>(HiveHelper.categoriesBox),
     Hive.openBox<ProductEntity>(HiveHelper.productsBox),
+    Hive.openBox<UserResponseEntity>(HiveHelper.profileBox),
     SharedPreferencesManager.getFirstTime(),
     SharedPreferencesManager.getUserLoggedIn(),
   ]);
