@@ -27,7 +27,7 @@ class HomeLocalDataSourceImp implements HomeLocalDataSource {
     int index = box.values.toList().indexWhere(
       (element) => element.id == productId,
     );
-    if (box.values.toList()[index].inCart) {
+    if (box.isNotEmpty && box.values.toList()[index].inCart) {
       return false;
     } else {
       box.values.toList()[index].inCart = true;

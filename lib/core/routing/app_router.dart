@@ -45,7 +45,8 @@ class AppRouter {
         final args = arguments as LoginArgs?;
         return CupertinoPageRoute(builder: (_) => LoginView(loginArgs: args));
       case Routes.registerView:
-        return CupertinoPageRoute(builder: (_) => const RegisterView());
+        final args = arguments as bool?;
+        return CupertinoPageRoute(builder: (_) => RegisterView(fromWelcome: args ?? false));
       case Routes.appSection:
         return CupertinoPageRoute(
           builder: (_) => MultiBlocProvider(

@@ -15,18 +15,24 @@ class ProductItem extends StatefulWidget {
     super.key,
     required this.product,
     required this.onSumChanged,
+    required this.initialCount,
   });
 
   final ProductEntity product;
-  final Function({required int previousSum, required int currentSum})
+  final Function({
+    required int previousSum,
+    required int currentSum,
+    required int count,
+  })
   onSumChanged;
+  final int initialCount;
 
   @override
   State<ProductItem> createState() => _ProductItemState();
 }
 
 class _ProductItemState extends State<ProductItem> {
-  int count = 1;
+  late int count = widget.initialCount;
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +80,13 @@ class _ProductItemState extends State<ProductItem> {
               IconButton(
                 visualDensity: VisualDensity.compact,
                 highlightColor: Colors.transparent,
-                onPressed: () =>
-                    context.read<CartCubit>().removeProduct(widget.product.id),
+                onPressed: () {
+                  context.read<CartCubit>().editTotalPriceWhenRemoval(
+                    count: count,
+                    productPrice: widget.product.price,
+                  );
+                  context.read<CartCubit>().removeProduct(widget.product.id);
+                },
                 icon: Icon(
                   CupertinoIcons.clear,
                   size: 22.r,
@@ -99,6 +110,7 @@ class _ProductItemState extends State<ProductItem> {
                           widget.onSumChanged(
                             previousSum: widget.product.price * count,
                             currentSum: widget.product.price * --count,
+                            count: count,
                           );
                         }
                       },
@@ -119,6 +131,7 @@ class _ProductItemState extends State<ProductItem> {
                         widget.onSumChanged(
                           previousSum: widget.product.price * count,
                           currentSum: widget.product.price * ++count,
+                          count: count,
                         );
                       },
                       icon: Icon(

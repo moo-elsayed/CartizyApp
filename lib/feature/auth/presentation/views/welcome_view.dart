@@ -27,7 +27,10 @@ class WelcomeView extends StatelessWidget {
               CustomMaterialButton(
                 onPressed: () {
                   SharedPreferencesManager.setFirstTime(false);
-                  context.pushReplacementNamed(Routes.registerView);
+                  context.pushReplacementNamed(
+                    Routes.registerView,
+                    arguments: true,
+                  );
                 },
                 text: 'Sign Up',
                 color: ColorsManager.color212121,

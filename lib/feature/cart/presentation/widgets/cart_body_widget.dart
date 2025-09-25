@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import '../../../../core/entities/product_entity.dart';
 import '../../../../core/theming/colors_manager.dart';
 import '../../../../core/theming/styles.dart';
 import '../../../../core/widgets/custom_material_button.dart';
@@ -17,26 +18,49 @@ class CartBodyWidget extends StatefulWidget {
 }
 
 class _CartBodyWidgetState extends State<CartBodyWidget> {
+  Map<int, int> amountOfEachProduct = {};
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-          Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) => ProductItem(
-                product: context.read<CartCubit>().products[index],
-                onSumChanged: ({required currentSum, required previousSum}) {
-                  context.read<CartCubit>().editTotalPrice(
-                    previousSum: previousSum,
-                    currentSum: currentSum,
-                  );
-                },
-              ),
-              physics: const BouncingScrollPhysics(),
-              separatorBuilder: (context, index) => Gap(20.h),
-              itemCount: context.read<CartCubit>().products.length,
-            ),
+          BlocBuilder<CartCubit, CartState>(
+            buildWhen: (previous, current) =>
+                current is EditTotalPrice || current is RemoveProductSuccess,
+            builder: (context, state) {
+              List<ProductEntity> products = context.read<CartCubit>().products;
+              if (amountOfEachProduct.isEmpty) {
+                amountOfEachProduct = Map.fromIterables(
+                  products.map((e) => e.id),
+                  List.generate(products.length, (index) => 1),
+                );
+              }
+              return Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, index) => ProductItem(
+                    key: ValueKey(products[index].id),
+                    initialCount: amountOfEachProduct[products[index].id] ?? 1,
+                    product: products[index],
+                    onSumChanged:
+                        ({
+                          required currentSum,
+                          required previousSum,
+                          required count,
+                        }) {
+                          context.read<CartCubit>().editTotalPrice(
+                            previousSum: previousSum,
+                            currentSum: currentSum,
+                          );
+                          amountOfEachProduct[products[index].id] = count;
+                        },
+                  ),
+                  physics: const BouncingScrollPhysics(),
+                  separatorBuilder: (context, index) => Gap(20.h),
+                  itemCount: context.read<CartCubit>().products.length,
+                ),
+              );
+            },
           ),
           Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),

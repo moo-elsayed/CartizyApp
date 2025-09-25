@@ -1,3 +1,5 @@
+import 'package:cartizy_app_nti/core/helpers/extentions.dart';
+import 'package:cartizy_app_nti/core/routing/routes.dart';
 import 'package:cartizy_app_nti/core/theming/colors_manager.dart';
 import 'package:cartizy_app_nti/core/widgets/app_toasts.dart';
 import 'package:cartizy_app_nti/core/widgets/custom_material_button.dart';
@@ -16,7 +18,9 @@ import '../../../../core/theming/styles.dart';
 import '../managers/register_cubit/register_cubit.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+  const RegisterView({super.key, required this.fromWelcome});
+
+  final bool fromWelcome;
 
   @override
   State<RegisterView> createState() => _RegisterViewState();
@@ -142,12 +146,18 @@ class _RegisterViewState extends State<RegisterView> {
                             title: 'Email Created',
                             type: ToastificationType.success,
                           );
-                          Navigator.of(context).pop(
-                            LoginArgs(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text.trim(),
-                            ),
+                          var loginArgs = LoginArgs(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
                           );
+                          if (widget.fromWelcome) {
+                            context.pushReplacementNamed(
+                              Routes.loginView,
+                              arguments: loginArgs,
+                            );
+                          } else {
+                            context.pop(loginArgs);
+                          }
                         } else if (state is RegisterFailure) {
                           AppToast.showToast(
                             context: context,
@@ -197,7 +207,11 @@ class _RegisterViewState extends State<RegisterView> {
                   style: TextStylesManager.font14color212121Bold,
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      Navigator.of(context).pop();
+                      if (widget.fromWelcome) {
+                        context.pushReplacementNamed(Routes.loginView);
+                      } else {
+                        context.pop();
+                      }
                     },
                 ),
               ],

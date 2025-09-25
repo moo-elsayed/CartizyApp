@@ -32,7 +32,6 @@ class Cart extends StatelessWidget {
                   title: 'Product removed successfully',
                   type: ToastificationType.success,
                 );
-                context.read<CartCubit>().getProducts();
               }
               if (state is RemoveProductFailure) {
                 AppToast.showToast(
@@ -46,7 +45,7 @@ class Cart extends StatelessWidget {
               if (state is GetProductsLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (state is GetProductsSuccess || state is EditTotalPrice) {
+              if (state is GetProductsSuccess || state is EditTotalPrice || state is RemoveProductSuccess) {
                 if (context.read<CartCubit>().products.isEmpty) {
                   return const EmptyCartWidget(
                     description: 'your cart is empty',

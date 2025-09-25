@@ -28,6 +28,7 @@ class CartCubit extends Cubit<CartState> {
       emit(RemoveProductFailure());
       return;
     }
+    products.removeWhere((element) => element.id == productId);
     emit(RemoveProductSuccess());
   }
 
@@ -42,4 +43,7 @@ class CartCubit extends Cubit<CartState> {
       : products
             .map((e) => e.price)
             .reduce((value, element) => value + element);
+
+  int editTotalPriceWhenRemoval({required int count, required int productPrice}) =>
+      totalPrice -= count * productPrice;
 }

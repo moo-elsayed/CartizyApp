@@ -51,12 +51,24 @@ class HomeRemoteDataSourceImp implements HomeRemoteDataSource {
 
   Future<void> _cacheProducts(List<ProductEntity> products) async {
     final box = await Hive.openBox<ProductEntity>(HiveHelper.productsBox);
+
     var myBox = box.values
         .where((element) => element.inCart || element.isFavorite)
         .toList();
+
+    final oldProductsMap = {for (var e in box.values) e.id: e};
+    final myBoxMap = {for (var e in myBox) e.id: e};
+
+    for (var product in products) {
+      if (myBoxMap.containsKey(product.id)) {
+        final old = myBoxMap[product.id]!;
+        product.inCart = old.inCart;
+        product.isFavorite = old.isFavorite;
+      }
+      oldProductsMap[product.id] = product;
+    }
+
     await box.clear();
-    var addedProducts = products.where((element) => !myBox.contains(element));
-    await box.addAll(myBox);
-    await box.addAll(addedProducts);
+    await box.addAll(oldProductsMap.values);
   }
 }

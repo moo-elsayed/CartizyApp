@@ -52,7 +52,8 @@ class _HomeState extends State<Home>
 
   void _getProducts(int selectedTabIndex) {
     final categoriesIds = context.read<HomeCubit>().categoriesIds;
-    if (categoriesIds.isEmpty) return;
+    final categoryProducts = context.read<HomeCubit>().categoryProducts;
+    if (categoryProducts[categoriesIds[selectedTabIndex]] != null) return;
     final int currentCategoryId = categoriesIds[selectedTabIndex];
     log('hi');
     context.read<HomeCubit>().getProductsByCategory(currentCategoryId);
