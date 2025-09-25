@@ -3,10 +3,12 @@ import 'package:cartizy_app_nti/core/entities/user_response_entity.dart';
 import 'package:cartizy_app_nti/core/helpers/network_response.dart';
 import 'package:cartizy_app_nti/feature/profile/data/api/profile_api.dart';
 import 'package:cartizy_app_nti/feature/profile/domain/entities/upload_entity.dart';
-import 'package:cartizy_app_nti/feature/profile/domain/repo_contract/data_sources/profile_remote_data_source.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../core/dtos/user_response_dto.dart';
+import '../../../../../core/helpers/hive_helper.dart';
 import '../../../domain/entities/user_request_entity.dart';
+import '../../../domain/repo_contract/data_sources/profile_remote_data_source.dart';
 import '../../dtos/response/upload_response_dto.dart';
 
 class ProfileRemoteDataSourceImp implements ProfileRemoteDataSource {
@@ -19,7 +21,10 @@ class ProfileRemoteDataSourceImp implements ProfileRemoteDataSource {
     final response = await _profileApi.getProfile();
     switch (response) {
       case NetworkSuccess<UserResponseDto>():
-        return NetworkSuccess<UserResponseEntity>(response.data?.toEntity());
+        UserResponseEntity user =
+            response.data?.toEntity() ?? const UserResponseEntity();
+        _cacheProfile(user);
+        return NetworkSuccess<UserResponseEntity>(user);
       case NetworkFailure<UserResponseDto>():
         return NetworkFailure<UserResponseEntity>(response.exception);
     }
@@ -47,9 +52,18 @@ class ProfileRemoteDataSourceImp implements ProfileRemoteDataSource {
     );
     switch (response) {
       case NetworkSuccess<UserResponseDto>():
-        return NetworkSuccess<UserResponseEntity>(response.data?.toEntity());
+        UserResponseEntity user =
+            response.data?.toEntity() ?? const UserResponseEntity();
+        _cacheProfile(user);
+        return NetworkSuccess<UserResponseEntity>(user);
       case NetworkFailure<UserResponseDto>():
         return NetworkFailure<UserResponseEntity>(response.exception);
     }
+  }
+
+  Future<void> _cacheProfile(UserResponseEntity user) async {
+    final box = await Hive.openBox<UserResponseEntity>(HiveHelper.profileBox);
+    await box.clear();
+    await box.add(user);
   }
 }
